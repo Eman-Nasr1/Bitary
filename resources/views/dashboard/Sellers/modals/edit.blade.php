@@ -29,6 +29,14 @@
             <input type="text" name="description_ar" id="editsellerDescriptionAr" value="{{ old('description_ar', $seller->description_ar) }}" class="form-control" required>
           </div>
           <div class="form-group">
+            <label>Phone</label>
+            <input type="text" name="phone" id="editsellerPhone" value="{{ old('phone', $seller->phone) }}" class="form-control" placeholder="Enter phone number">
+          </div>
+          <div class="form-group">
+            <label>Availability</label>
+            <input type="text" name="availability" id="editsellerAvailability" value="{{ old('availability', $seller->availability ?? '24/7') }}" class="form-control" placeholder="e.g., 24/7, 9 AM - 5 PM">
+          </div>
+          <div class="form-group">
             <label for="createBannerImage">Image</label>
             <input type="file" name="image" id="createhealthIssueImage" class="form-control">
           </div>

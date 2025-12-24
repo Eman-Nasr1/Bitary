@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 trait HandlesImages
 {
@@ -12,13 +12,10 @@ trait HandlesImages
      */
     public function uploadImage(UploadedFile $file, string $folder = 'animals'): string
     {
-        // Generate unique name
-        $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
-
-        // Move the file to public folder
-        $file->move(public_path($folder), $filename);
-
-        return $folder . '/' . $filename;
+        // Store file in storage/app/public/{folder}
+        $path = $file->store($folder, 'public');
+        
+        return $path;
     }
 
     /**
@@ -27,8 +24,8 @@ trait HandlesImages
     public function updateImage(?string $oldPath, UploadedFile $file, string $folder = 'animals'): string
     {
         // Delete old image if exists
-        if ($oldPath && file_exists(public_path($oldPath))) {
-            unlink(public_path($oldPath));
+        if ($oldPath && Storage::disk('public')->exists($oldPath)) {
+            Storage::disk('public')->delete($oldPath);
         }
 
         return $this->uploadImage($file, $folder);

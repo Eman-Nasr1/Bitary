@@ -9,12 +9,12 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Animals</h3>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#createanimalModal">Add animal</button>
+            <h3>Animal Types</h3>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#createanimalTypeModal">Add Animal Type</button>
 
         </div>
 
-        <div class="card-body"> <form action="{{ route('dashboard.animals.index') }}" method="GET" class="form-inline">
+        <div class="card-body"> <form action="{{ route('dashboard.animal_types.index') }}" method="GET" class="form-inline">
             <input type="text" name="filters[name_ar]" class="form-control mr-2" placeholder="Search by Arabic Name"
                 value="{{ request('filters.name_ar') }}">
             <input type="text" name="filters[name_en]" class="form-control mr-2" placeholder="Search by English Name"
@@ -28,34 +28,26 @@
                         <th>Image</th>
                         <th>Name Ar</th>
                         <th>Name En</th>
-                        <th>Animal Type</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($Animals as $animal)
+                    @forelse($AnimalTypes as $animalType)
                         <tr>
-                            <td><img src="{{ asset($animal->image) }}" width="80"></td>
+                            <td><img src="{{ asset($animalType->image) }}" width="80"></td>
 
-                            <td><strong>{{ $animal->name_ar }}</strong></td>
-                            <td><strong>{{ $animal->name_en }}</strong></td>
-                            <td>
-                                @if($animal->animalType)
-                                    <span class="badge badge-info">{{ $animal->animalType->name_en }}</span>
-                                @else
-                                    <span class="text-muted">No Type</span>
-                                @endif
-                            </td>
+                            <td><strong>{{ $animalType->name_ar }}</strong></td>
+                            <td><strong>{{ $animalType->name_en }}</strong></td>
                             <td>
 
-                                <button class="btn btn-sm btn-info edit-animal-btn" data-toggle="modal"
-                                    data-target="#editanimalModal{{ $animal->id }}" data-id="{{ $animal->id }}"
-                                    data-name_ar="{{ $animal->name_ar }}" data-name_en="{{ $animal->name_en }}"
-                                    data-image="{{ $animal->image }}">
+                                <button class="btn btn-sm btn-info edit-animal-type-btn" data-toggle="modal"
+                                    data-target="#editanimalTypeModal{{ $animalType->id }}" data-id="{{ $animalType->id }}"
+                                    data-name_ar="{{ $animalType->name_ar }}" data-name_en="{{ $animalType->name_en }}"
+                                    data-image="{{ $animalType->image }}">
                                     Edit
                                 </button>
 
-                                <form action="{{ route('dashboard.animals.destroy', $animal) }}" method="POST"
+                                <form action="{{ route('dashboard.animal_types.destroy', $animalType) }}" method="POST"
                                     class="d-inline">
                                     @csrf @method('DELETE')
                                     <button class="btn btn-sm btn-danger">Delete</button>
@@ -66,13 +58,13 @@
 
 
 
-                        <!-- Edit Modal for Parent -->
-                        @include('dashboard.Animals.modals.edit', ['animal' => $animal, 'animalTypes' => $animalTypes])
+                        <!-- Edit Modal for Animal Type -->
+                        @include('dashboard.AnimalTypes.modals.edit', ['animalType' => $animalType])
 
 
                     @empty
                         <tr>
-                            <td colspan="5">No Animals found.</td>
+                            <td colspan="4">No Animal Types found.</td>
                         </tr>
                     @endforelse
 
@@ -80,7 +72,7 @@
             </table>
         </div>
     </div>
-    @include('dashboard.Animals.modals.create', ['animalTypes' => $animalTypes])
+    @include('dashboard.AnimalTypes.modals.create')
 @stop
 
 
@@ -95,3 +87,5 @@
         console.log("Hi, I'm using the Laravel-AdminLTE package!");
     </script>
 @stop
+
+

@@ -327,6 +327,12 @@ return [
             'label_color' => 'success',
         ],
         [
+            'text' => 'Animal Types',
+            'url' => 'dashboard/animal_types',
+           'icon' => 'fas fa-tags',
+            'label_color' => 'success',
+        ],
+        [
             'text' => 'Categories',
             'url' => 'dashboard/categories',
            'icon' => 'fas fa-folder',

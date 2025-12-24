@@ -28,13 +28,13 @@ class SellerService
     public function constructSellerModel($request)
     {
         $sellerModel = [
-            'name_en' => $request['name_en'],
-            'name_ar' => $request['name_ar'],
-            'availability' => $request['availability'],
-            'phone' => $request['phone'],
-            'description_en' => $request['description_en'],
-            'description_ar' => $request['description_ar'],
-            'image' => $request['image'],
+            'name_en' => $request['name_en'] ?? null,
+            'name_ar' => $request['name_ar'] ?? null,
+            'availability' => $request['availability'] ?? '24/7',
+            'phone' => $request['phone'] ?? null,
+            'description_en' => $request['description_en'] ?? null,
+            'description_ar' => $request['description_ar'] ?? null,
+            'image' => $request['image'] ?? null,
         ];
         return $sellerModel;
     }

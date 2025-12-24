@@ -50,7 +50,13 @@
                 <tbody>
                     @forelse($sellers as $seller)
                         <tr>
-                            <td><img src="{{ asset($seller->image) }}" width="80"></td>
+                            <td>
+                                @if($seller->image_url)
+                                    <img src="{{ $seller->image_url }}" width="80" alt="{{ $seller->name_en }}">
+                                @else
+                                    <span class="text-muted">No Image</span>
+                                @endif
+                            </td>
 
                             <td><strong>{{ $seller->name_ar }}</strong></td>
                             <td><strong>{{ $seller->name_en }}</strong></td>
@@ -66,8 +72,8 @@
                                     data-target="#editsellerModal{{ $seller->id }}" data-id="{{ $seller->id }}"
                                     data-name_ar="{{ $seller->name_ar }}" data-name_en="{{ $seller->name_en }}"
                                     data-description_ar="{{ $seller->description_ar }}" data-description_en="{{ $seller->description_en }}"
-                                    data-description_ar="{{ $seller->phone }}" data-description_en="{{ $seller->availability }}"
-                                    data-image="{{ $seller->image }}">
+                                    data-phone="{{ $seller->phone ?? '' }}" data-availability="{{ $seller->availability ?? '24/7' }}"
+                                    data-image="{{ $seller->image_url ?? '' }}">
                                     Edit
                                 </button>
 

@@ -6,11 +6,11 @@ use App\Traits\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Animal extends Model
+class AnimalType extends Model
 {
     use Translatable;
-    protected $fillable = ['name_en', 'name_ar', 'image', 'animal_type_id'];
-
+    
+    protected $fillable = ['name_en', 'name_ar', 'image'];
 
     protected $appends = ['name', 'image_url'];
     protected $hidden = ['name_en', 'name_ar'];
@@ -21,12 +21,11 @@ class Animal extends Model
             ? asset($this->image)
             : null;
     }
+    
     public function getNameAttribute()
     {
         return $this->getTranslatedAttribute('name');
     }
-
-
 
     public function scopeWhereLike(Builder $query, array $filters): Builder
     {
@@ -38,13 +37,8 @@ class Animal extends Model
         return $query;
     }
 
-    public function medicines()
+    public function animals()
     {
-        return $this->belongsToMany(Medicine::class, 'animal_medicine');
-    }
-
-    public function animalType()
-    {
-        return $this->belongsTo(AnimalType::class);
+        return $this->hasMany(Animal::class);
     }
 }

@@ -8,21 +8,27 @@ use App\Http\Controllers\Controller;
 use App\Modules\Animal\Services\AnimalService;
 use App\Modules\Animal\Requests\StoreAnimalRequest;
 use App\Modules\Animal\Requests\UpdateAnimalRequest;
+use App\Modules\AnimalType\Services\AnimalTypeService;
 use App\Traits\HandlesImages;
 
 
 class AnimalController extends Controller
 {
     use HandlesImages;
-    public function __construct(private AnimalService $animalService) {}
+    public function __construct(
+        private AnimalService $animalService,
+        private AnimalTypeService $animalTypeService
+    ) {}
 
     public function index(Request $request)
     {
        
         $animals = $this->animalService->listAllAnimals($request->all());
+        $animalTypes = $this->animalTypeService->listAllAnimalTypes([]);
 
         return view('dashboard.Animals.index', [
             'Animals' => $animals['data'],
+            'animalTypes' => $animalTypes['data'],
         ]);
     }
 

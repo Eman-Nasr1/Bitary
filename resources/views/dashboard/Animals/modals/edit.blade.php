@@ -21,6 +21,17 @@
             <input type="text" name="name_ar" id="editanimalNameAr" value="{{ old('name_ar', $animal->name_ar) }}" class="form-control" required>
           </div>
           <div class="form-group">
+            <label>Animal Type</label>
+            <select name="animal_type_id" class="form-control">
+              <option value="">Select Animal Type</option>
+              @foreach($animalTypes as $animalType)
+                <option value="{{ $animalType->id }}" {{ old('animal_type_id', $animal->animal_type_id) == $animalType->id ? 'selected' : '' }}>
+                  {{ $animalType->name_en }} ({{ $animalType->name_ar }})
+                </option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-group">
             <label for="createBannerImage">Image</label>
             <input type="file" name="image" id="createhealthIssueImage" class="form-control">
           </div>

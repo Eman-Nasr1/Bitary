@@ -33,6 +33,14 @@
 
           </div>
           <div class="form-group">
+            <label>Phone</label>
+            <input type="text" name="phone" class="form-control" placeholder="Enter phone number">
+          </div>
+          <div class="form-group">
+            <label>Availability</label>
+            <input type="text" name="availability" class="form-control" placeholder="e.g., 24/7, 9 AM - 5 PM" value="24/7">
+          </div>
+          <div class="form-group">
             <label for="createsellerImage">Image</label>
             <input type="file" name="image" required id="createsellerImage" class="form-control">
           </div>

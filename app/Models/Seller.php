@@ -20,9 +20,35 @@ class Seller extends Model
 
     public function getImageUrlAttribute()
     {
-        return $this->image
-            ? asset($this->image)
-            : null;
+        try {
+            if (empty($this->image)) {
+                return null;
+            }
+            
+            // If it's an old path format (public folder), convert it
+            $image = trim($this->image);
+            if (empty($image)) {
+                return null;
+            }
+            
+            // Reject temporary file paths and absolute paths
+            if (stripos($image, 'tmp') !== false || 
+                stripos($image, 'php') !== false || 
+                stripos($image, 'xampp') !== false ||
+                stripos($image, '\\') !== false ||
+                preg_match('/^[a-zA-Z]:\\\\/', $image)) {
+                return null;
+            }
+            
+            // Use Storage to get the URL for stored files
+            if (Storage::disk('public')->exists($image)) {
+                return Storage::disk('public')->url($image);
+            }
+            
+            return null;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
     public function getNameAttribute()
     {

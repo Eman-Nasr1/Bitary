@@ -12,9 +12,14 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'family_name' => 'required|string|max:255',
+            'age' => 'required|integer|min:1|max:120',
+            'gender' => 'required|in:male,female',
+            'city_id' => 'required|integer|exists:cities,id',
+            'address' => 'required|string|max:500',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|unique:users,phone',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
         ];
     }
 }

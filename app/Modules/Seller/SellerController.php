@@ -8,12 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Modules\Seller\Services\SellerService;
 use App\Modules\Seller\Requests\StoreSellerRequest;
 use App\Modules\Seller\Requests\UpdateSellerRequest;
-use App\Traits\HandlesImages;
+use Illuminate\Support\Facades\Storage;
 
 
 class SellerController extends Controller
 {
-    use HandlesImages;
     public function __construct(private SellerService $sellerService) {}
 
     public function index(Request $request)
@@ -33,7 +32,8 @@ class SellerController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $data['image'] = $this->uploadImage($request->file('image'));
+            $path = $request->file('image')->store('sellers', 'public');
+            $data['image'] = $path;
         }
         $this->sellerService->createSeller($data);
 
@@ -51,7 +51,12 @@ class SellerController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $data['image'] = $this->updateImage($seller->image, $request->file('image'));
+            // Delete old image if exists
+            if ($seller->image && Storage::disk('public')->exists($seller->image)) {
+                Storage::disk('public')->delete($seller->image);
+            }
+            $path = $request->file('image')->store('sellers', 'public');
+            $data['image'] = $path;
         } else {
             $data['image'] = $seller->image;
         }

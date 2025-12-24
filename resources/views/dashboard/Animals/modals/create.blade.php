@@ -23,6 +23,15 @@
 
           </div>
           <div class="form-group">
+            <label>Animal Type</label>
+            <select name="animal_type_id" class="form-control">
+              <option value="">Select Animal Type</option>
+              @foreach($animalTypes as $animalType)
+                <option value="{{ $animalType->id }}">{{ $animalType->name_en }} ({{ $animalType->name_ar }})</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-group">
             <label for="createanimalImage">Image</label>
             <input type="file" name="image" required id="createanimalImage" class="form-control">
           </div>

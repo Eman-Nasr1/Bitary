@@ -26,6 +26,11 @@ class UsersRepository extends BaseRepository
 
         $user = User::create([
             'name' => $user['name'],
+            'family_name' => $user['family_name'] ?? null,
+            'age' => $user['age'] ?? null,
+            'gender' => $user['gender'] ?? null,
+            'city_id' => $user['city_id'] ?? null,
+            'address' => $user['address'] ?? null,
             'email' => $user['email'],
             'phone' => $user['phone'],
             'password' => Hash::make($user['password']),

@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Modules\Animal\Requests;
-
+namespace App\Modules\AnimalType\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class StoreAnimalRequest extends FormRequest
+class UpdateAnimalTypeRequest extends FormRequest
 {
     public function rules(): array
     {
+
         return [
             'name_en' => 'required|string|max:255',
             'name_ar' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'animal_type_id' => 'nullable|integer|exists:animal_types,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+
         ];
     }
 }

@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
              
                 CitySeeder::class,
                 AreaSeeder::class,
-                AdminSeeder::class
+                AdminSeeder::class,
+                AnimalTypeSeeder::class,
+                CategorySeeder::class
             ]);
     
     }

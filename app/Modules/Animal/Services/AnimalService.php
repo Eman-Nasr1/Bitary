@@ -18,7 +18,7 @@ class AnimalService
 
         $listAllAnimals= (new ListAllAnimalsRequest)->constructQueryCriteria($queryParameters);
 
-        $animals= $this->animalsRepository->findAllBy($listAllAnimals );
+        $animals= $this->animalsRepository->findAllBy($listAllAnimals, ['animalType']);
         return [
             'data' => new AnimalCollection($animals['data']),
             'count' => $animals['count']
@@ -31,6 +31,7 @@ class AnimalService
             'name_en' => $request['name_en'],
             'name_ar' => $request['name_ar'],
             'image' => $request['image'],
+            'animal_type_id' => $request['animal_type_id'] ?? null,
 
 
         ];

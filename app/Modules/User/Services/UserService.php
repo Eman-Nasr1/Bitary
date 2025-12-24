@@ -105,6 +105,11 @@ class UserService
     {
         $userModel = [
             'name' => $request['name'],
+            'family_name' => $request['family_name'] ?? null,
+            'age' => $request['age'] ?? null,
+            'gender' => $request['gender'] ?? null,
+            'city_id' => $request['city_id'] ?? null,
+            'address' => $request['address'] ?? null,
             'email' => $request['email'],
             'phone' => $request['phone'] ?? null,
             'social_id' => $request['social_id'] ?? null,
