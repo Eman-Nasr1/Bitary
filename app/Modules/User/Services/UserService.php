@@ -135,4 +135,9 @@ class UserService
         $user->password = bcrypt($request['password']);
         return $user->save();
     }
+
+    public function resendOtp($email)
+    {
+        return $this->usersRepository->resendOtp($email);
+    }
 }

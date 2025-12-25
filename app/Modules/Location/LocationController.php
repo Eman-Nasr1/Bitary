@@ -2,6 +2,7 @@
 
 namespace App\Modules\Location;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Modules\Location\Services\AreaService;
 use App\Modules\Location\Services\CityService;
@@ -15,21 +16,16 @@ class LocationController extends Controller
     {
     }
     
-    public function listAllCites(ListCitiesRequest $request)
+    public function listAllCites(Request $request)
     {
-
-        $cities = $this->cityService->listAllCities( $request->validated());
+        $cities = $this->cityService->listAllCities($request->all());
     
         return successJsonResponse(data_get($cities, 'data'), __('cities.success.get_all_cities'), data_get($cities, 'count'));
     }
 
-    public function listAllAreas(ListAreasRequest $request)
+    public function listAllAreas(Request $request)
     {  
-        $areas = $this->areaService->listAllAreas( $request->validated());
-        return successJsonResponse(data_get($areas, 'data'), __('Areas.success.get_all_Areas'), data_get(     $areas , 'count'));
+        $areas = $this->areaService->listAllAreas($request->all());
+        return successJsonResponse(data_get($areas, 'data'), __('Areas.success.get_all_Areas'), data_get($areas, 'count'));
     }
-    
-
-   
-    
 }

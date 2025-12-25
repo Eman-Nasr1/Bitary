@@ -34,19 +34,22 @@ class AreaRepository extends BaseRepository
         $limit = data_get($queryCriteria, 'limit', 10);
         $offset = data_get($queryCriteria, 'offset', 0);
         $sortBy = data_get($queryCriteria, 'sortBy', 'id');
-        $sort = data_get($queryCriteria, 'sort', 'DESC');
+        $sort = data_get($queryCriteria, 'sort', 'ASC'); // Changed default to ASC
         $filters = data_get($queryCriteria, 'filters', []);
    
+        // Initialize query
+        $query = $this->model->newQuery();
 
         if (!empty($filters['city_name'])) {
-            $query = $this->model->whereHas('city', function ($q) use ($filters) {
+            $query = $query->whereHas('city', function ($q) use ($filters) {
                 $q->where('name', $filters['city_name']);
             });
         }
         
         if (!empty($filters['city_id'])) {
-            $query =$this->model->where('city_id', $filters['city_id']);
+            $query = $query->where('city_id', $filters['city_id']);
         }
+        
         return [
             'count' => $query->count(),
             'data' => $query->skip($offset)->take($limit)->orderBy($sortBy, $sort)->get(),

@@ -66,7 +66,14 @@ class UsersRepository extends BaseRepository
     }
     public function login(array $credentials)
     {
-        $user = User::where('email', $credentials['email'])->first();
+        // Login with email or phone
+        if (isset($credentials['email'])) {
+            $user = User::where('email', $credentials['email'])->first();
+        } elseif (isset($credentials['phone'])) {
+            $user = User::where('phone', $credentials['phone'])->first();
+        } else {
+            return null;
+        }
     
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
             return null;
@@ -80,6 +87,29 @@ class UsersRepository extends BaseRepository
 
     public function getUserByEmail($email){
         $user = $this->model::where('email',$email)->first();
+        return $user;
+    }
+
+    public function resendOtp($email): ?User
+    {
+        $user = User::where('email', $email)->first();
+        
+        if (!$user) {
+            return null;
+        }
+
+        // Generate new OTP
+        $otp = rand(100000, 999999);
+        
+        // Update user with new OTP
+        $user->update([
+            'otp_code' => $otp,
+            'otp_expires_at' => Carbon::now()->addMinutes(10),
+        ]);
+
+        // Send OTP email
+        Mail::to($user->email)->send(new SendOtp($otp));
+
         return $user;
     }
 }

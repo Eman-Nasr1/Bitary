@@ -13,6 +13,7 @@ use App\Modules\User\Requests\LoginRequest;
 use App\Modules\User\Resources\UserResource;
 use App\Modules\User\Requests\ListUsersRequest;
 use App\Modules\User\Requests\VerifyOtpRequest;
+use App\Modules\User\Requests\ResendOtpRequest;
 use App\Modules\Shared\Enums\HttpStatusCodeEnum;
 use App\Modules\User\Requests\CreateUserRequest;
 use App\Modules\User\Requests\UpdateUserRequest;
@@ -91,8 +92,15 @@ class UserController extends Controller
     {
         $user = $this->userService->createUser($request->validated());
 
+        // Create authentication token
+        $token = $user->createToken($user->email)->plainTextToken;
 
-        return successJsonResponse(new UserResource($user), __('user.success.create_user'));
+        return response()->json([
+            'status' => 'success',
+            'message' => __('user.success.create_user'),
+            'data' => new UserResource($user),
+            'token' => $token,
+        ]);
     }
 
     public function verify(VerifyOtpRequest $request)
@@ -105,6 +113,20 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Account verified successfully!',
+        ]);
+    }
+
+    public function resendOtp(ResendOtpRequest $request)
+    {
+        $user = $this->userService->resendOtp($request->email);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'OTP code has been resent to your email.',
         ]);
     }
 

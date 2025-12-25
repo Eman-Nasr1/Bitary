@@ -27,6 +27,7 @@ Route::get('user/{provider}/callback', [SocialApiController::class, 'callback'])
 Route::prefix('user')->group(function () {
     Route::post('register', [UserController::class, 'createUser']);
     Route::post('verify', [UserController::class, 'verify']);
+    Route::post('resend-otp', [UserController::class, 'resendOtp']);
     Route::post('login', [UserController::class, 'login']);
 
 
@@ -44,9 +45,12 @@ Route::middleware('auth:sanctum')->get('/token/check', function () {
         'user' => auth()->user()
     ]);
 });
-//animals
 
+
+//animals
+Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('animals/{id}', [ApiAnimalController::class, 'show']);
 Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('animals', [ApiAnimalController::class, 'listAllAnimals']);
+
 
 //category
 
@@ -57,6 +61,10 @@ Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('categories'
 Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('medicines', [ApiMedicineController::class, 'listAllMedicines']);
 Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('/medicines/{id}', [ApiMedicineController::class, 'show']);
 
+//locations
+
+Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('cities', [LocationController::class, 'listAllCites']);
+Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('areas', [LocationController::class, 'listAllAreas']);
 
 //rating
 

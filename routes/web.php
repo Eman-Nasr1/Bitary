@@ -7,6 +7,7 @@ use App\Modules\Seller\SellerController;
 use App\Modules\Medicine\MedicineController;
 use App\Modules\Category\CategoryController;
 use App\Modules\AnimalType\AnimalTypeController;
+use App\Modules\City\CityController;
 
 
 Route::get('/', function () {
@@ -22,6 +23,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::resource('categories', CategoryController::class)->middleware('auth:admin');
     Route::resource('sellers', SellerController::class)->middleware('auth:admin');
     Route::resource('medicines', MedicineController::class)->middleware('auth:admin');
+    Route::resource('cities', CityController::class)->middleware('auth:admin');
 
 });
 Auth::routes();

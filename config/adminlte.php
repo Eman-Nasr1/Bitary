@@ -350,6 +350,12 @@ return [
            'icon' => 'fas fa-pills',
             'label_color' => 'success',
         ],
+        [
+            'text' => 'Cities',
+            'url' => 'dashboard/cities',
+           'icon' => 'fas fa-city',
+            'label_color' => 'success',
+        ],
         // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',
