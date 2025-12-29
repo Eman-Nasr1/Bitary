@@ -41,12 +41,12 @@ class MedicineController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $data['image'] = $this->uploadImage($request->file('image'));
+            $data['image'] = $this->uploadImage($request->file('image'), 'medicines');
         }
         $this->medicineService->createMedicine($data);
 
 
-        return redirect()->back()->with('success', 'Medicine created successfully!');
+        return redirect()->back()->with('success', 'Product created successfully!');
     }
 
 
@@ -60,7 +60,7 @@ class MedicineController extends Controller
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
 
-            $data['image'] = $this->updateImage($medicine->image, $request->file('image'));
+            $data['image'] = $this->updateImage($medicine->image, $request->file('image'), 'medicines');
        
         } else {
             $data['image'] = $medicine->image;
@@ -68,13 +68,13 @@ class MedicineController extends Controller
 
         $this->medicineService->updateMedicine($id, $data);
 
-        return redirect()->back()->with('success', 'Medicine updated successfully!');
+        return redirect()->back()->with('success', 'Product updated successfully!');
     }
 
 
     public function destroy($id)
     {
         $this->medicineService->deleteMedicine($id);
-        return redirect()->back()->with('success', 'Medicine deleted successfully!');
+        return redirect()->back()->with('success', 'Product deleted successfully!');
     }
 }

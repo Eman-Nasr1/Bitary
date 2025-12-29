@@ -17,7 +17,36 @@ class MedicinesRepository extends BaseRepository
         $query = $this->model->query()->with($with);
 
         if (!empty($queryCriteria['filters'])) {
-            $query->whereLike($queryCriteria['filters']);
+            $filters = $queryCriteria['filters'];
+            
+            // Handle special filters for relationships
+            if (isset($filters['animal_id'])) {
+                $animalId = $filters['animal_id'];
+                $query->whereHas('animals', function ($q) use ($animalId) {
+                    $q->where('animals.id', $animalId);
+                });
+                unset($filters['animal_id']);
+            }
+            
+            if (isset($filters['animal_type_id'])) {
+                $animalTypeId = $filters['animal_type_id'];
+                $query->whereHas('animals.animalType', function ($q) use ($animalTypeId) {
+                    $q->where('animal_types.id', $animalTypeId);
+                });
+                unset($filters['animal_type_id']);
+            }
+            
+            // Handle category_id filter (direct column)
+            if (isset($filters['category_id'])) {
+                $categoryId = $filters['category_id'];
+                $query->where('category_id', $categoryId);
+                unset($filters['category_id']);
+            }
+            
+            // Apply remaining filters using whereLike
+            if (!empty($filters)) {
+                $query->whereLike($filters);
+            }
         }
 
         $limit = data_get($queryCriteria, 'limit', 10);

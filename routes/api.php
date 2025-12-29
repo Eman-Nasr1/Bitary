@@ -6,8 +6,7 @@ use App\Modules\User\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Modules\Rating\RatingController;
 use App\Modules\Animal\ApiAnimalController;
-
-
+use App\Modules\AnimalType\ApiAnimalTypeController;
 
 use App\Modules\Favorite\FavoriteController;
 use App\Modules\Location\LocationController;
@@ -48,18 +47,20 @@ Route::middleware('auth:sanctum')->get('/token/check', function () {
 
 
 //animals
-Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('animals/{id}', [ApiAnimalController::class, 'show']);
-Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('animals', [ApiAnimalController::class, 'listAllAnimals']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('animals/{id}', [ApiAnimalController::class, 'show']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('animals', [ApiAnimalController::class, 'listAllAnimals']);
 
+//animal_types
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('animal_types/{id}', [ApiAnimalTypeController::class, 'show']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('animal_types', [ApiAnimalTypeController::class, 'listAllAnimalTypes']);
 
 //category
-
-Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('categories', [ApiCategoryController::class, 'listAllCategories']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('categories/{id}', [ApiCategoryController::class, 'show']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('categories', [ApiCategoryController::class, 'listAllCategories']);
 
 //medicines
-
-Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('medicines', [ApiMedicineController::class, 'listAllMedicines']);
-Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('/medicines/{id}', [ApiMedicineController::class, 'show']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('products', [ApiMedicineController::class, 'listAllMedicines']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('/products/{id}', [ApiMedicineController::class, 'show']);
 
 //locations
 

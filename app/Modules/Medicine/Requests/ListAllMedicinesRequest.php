@@ -29,6 +29,8 @@ class ListAllMedicinesRequest extends BaseRequest
             // العلاقات
             'category_id' => 'category_id',
             'seller_id'   => 'seller_id',
+            'animal_id' => 'animal_id',
+            'animal_type_id' => 'animal_type_id',
 
             // نوع المنتج
             'product_type_en' => 'product_type_en',

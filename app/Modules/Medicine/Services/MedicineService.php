@@ -88,7 +88,11 @@ class MedicineService
     }
  public function getMedicineById($id)
     {
-        return $this->medicinesRepository->find($id);
+        $medicine = $this->medicinesRepository->find($id);
+        if ($medicine) {
+            $medicine->load(['category', 'seller', 'animals']);
+        }
+        return $medicine;
     }
     public function createMedicine($request)
     {

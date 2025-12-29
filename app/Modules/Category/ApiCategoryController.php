@@ -23,5 +23,20 @@ class ApiCategoryController extends Controller
         );
     }
 
+    public function show($id)
+    {
+        $category = $this->CategoryService->getCategoryById($id);
 
+        if (!$category) {
+            return errorJsonResponse(
+                __('Categories.errors.not_found'),
+                404
+            );
+        }
+
+        return successJsonResponse(
+            $category,
+            __('Categories.success.get_single_category')
+        );
+    }
 }

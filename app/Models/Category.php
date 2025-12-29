@@ -12,8 +12,8 @@ class Category extends Model
     protected $fillable = ['name_en', 'name_ar',  'image'];
 
 
-    protected $appends = ['name', 'image_url'];
-    protected $hidden = ['name_en', 'name_ar'];
+    protected $appends = ['image_url'];
+    protected $hidden = [];
 
     public function getImageUrlAttribute()
     {

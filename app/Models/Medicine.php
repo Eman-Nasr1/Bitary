@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 
 class Medicine extends Model
 {
@@ -41,7 +42,6 @@ class Medicine extends Model
     ];
 
     protected $appends = [
-        'name',
         'description',
         'rating',
         'title',
@@ -53,8 +53,6 @@ class Medicine extends Model
     ];
 
     protected $hidden = [
-        'name_en',
-        'name_ar',
         'title_en',
         'title_ar',
         'description_en',
@@ -67,6 +65,7 @@ class Medicine extends Model
         'return_policy_ar',
         'exchange_policy_en',
         'exchange_policy_ar',
+        'image',
     ];
     public function favoritedBy()
     {
@@ -84,9 +83,36 @@ class Medicine extends Model
     }
     public function getImageUrlAttribute()
     {
-        return $this->image
-            ? asset($this->image)
-            : null;
+        try {
+            $image = $this->attributes['image'] ?? null;
+            if (empty($image)) {
+                return null;
+            }
+            $image = trim($image);
+            if (empty($image)) {
+                return null;
+            }
+            // Reject temporary file paths and absolute paths
+            if (stripos($image, 'tmp') !== false ||
+                stripos($image, 'php') !== false ||
+                stripos($image, 'xampp') !== false ||
+                stripos($image, '\\') !== false ||
+                preg_match('/^[a-zA-Z]:\\\\/', $image) || // Windows absolute path
+                strpos($image, '/') === 0) { // Unix absolute path
+                return null;
+            }
+            // Only process valid relative paths (e.g., "medicines/filename.jpg")
+            if (strpos($image, '/') === false || strpos($image, '..') !== false) {
+                return null;
+            }
+            // Check if file exists in storage
+            if (!Storage::disk('public')->exists($image)) {
+                return null;
+            }
+            return Storage::disk('public')->url($image);
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
     public function animals()
     {

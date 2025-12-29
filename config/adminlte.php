@@ -345,7 +345,7 @@ return [
             'label_color' => 'success',
         ],
          [
-            'text' => 'Medicines',
+            'text' => 'Products',
             'url' => 'dashboard/medicines',
            'icon' => 'fas fa-pills',
             'label_color' => 'success',
@@ -479,17 +479,22 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap4-theme/1.3.0/select2-bootstrap4.min.css',
                 ],
             ],
         ],

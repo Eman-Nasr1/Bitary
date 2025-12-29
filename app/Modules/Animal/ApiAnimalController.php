@@ -23,5 +23,20 @@ class ApiAnimalController extends Controller
         );
     }
 
+    public function show($id)
+    {
+        $animal = $this->animalService->getAnimalById($id);
 
+        if (!$animal) {
+            return errorJsonResponse(
+                __('Animals.errors.not_found'),
+                404
+            );
+        }
+
+        return successJsonResponse(
+            $animal,
+            __('Animals.success.get_single_animal')
+        );
+    }
 }

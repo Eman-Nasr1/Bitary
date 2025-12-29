@@ -1,13 +1,13 @@
 <div class="modal fade" id="createMedicineModal" tabindex="-1" aria-labelledby="createMedicineModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <form action="{{ route('dashboard.medicines.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title"> Medicine Name</h5>
+                    <h5 class="modal-title">Product Name</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -105,11 +105,12 @@
                     {{-- Animals (multi-select) --}}
                     <div class="form-group">
                         <label>Animals</label>
-                        <select name="animals[]" class="form-control" multiple>
+                        <select name="animals[]" id="animalsSelect" class="form-control animals-select" multiple>
                             @foreach ($animals as $animal)
                                 <option value="{{ $animal->id }}">{{ $animal->name }}</option>
                             @endforeach
                         </select>
+                        <small class="form-text text-muted">Select one or more animals. You can search by typing.</small>
                     </div>
 
                     {{-- Product Type --}}

@@ -1,119 +1,166 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Sellers')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1>Sellers</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h3>Sellers</h3>
-            <button class="btn btn-primary" data-toggle="modal" data-target="#createsellerModal">Add Seller</button>
-
+            <button class="btn btn-primary" data-toggle="modal" data-target="#createsellerModal">
+                <i class="fas fa-plus"></i> Add Seller
+            </button>
         </div>
 
-        <div class="card-body"> <form action="{{ route('dashboard.sellers.index') }}" method="GET" class="form-inline">
-            <input type="text" name="filters[name_ar]" class="form-control mr-2" placeholder="Search by Arabic Name"
-                value="{{ request('filters.name_ar') }}">
-            <input type="text" name="filters[name_en]" class="form-control mr-2" placeholder="Search by English Name"
-                value="{{ request('filters.name_en') }}">
+        <div class="card-body">
+            {{-- Filters --}}
+            <form action="{{ route('dashboard.sellers.index') }}" method="GET" class="mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" name="filters[name_en]" class="form-control" 
+                            placeholder="Search by Name..." value="{{ request('filters.name_en') }}">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="filters[phone]" class="form-control" 
+                            placeholder="Search by Phone..." value="{{ request('filters.phone') }}">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <a href="{{ route('dashboard.sellers.index') }}" class="btn btn-light">
+                            <i class="fas fa-times"></i> Clear
+                        </a>
+                    </div>
+                </div>
+            </form>
 
-            <input type="text" name="filters[description_ar]" class="form-control mr-2" placeholder="Search by Arabic Description "
-                value="{{ request('filters.description_ar') }}">
-            <input type="text" name="filters[description_en]" class="form-control mr-2" placeholder="Search by English Description"
-                value="{{ request('filters.description_en') }}">
-
-            <input type="text" name="filters[phone]" class="form-control mr-2" placeholder="Search by phone "
-                value="{{ request('filters.phone') }}">
-            <input type="text" name="filters[availability]" class="form-control mr-2" placeholder="Search by availability"
-                value="{{ request('filters.availability') }}">
-            <button type="submit" class="btn btn-secondary">Filter</button>
-        </form>
-<br>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name Ar</th>
-                        <th>Name En</th>
-
-                        <th>Description Ar</th>
-                        <th>Description En</th>
-                          <th>phone</th>
-                        <th>availability</th>
-                        <th>Rate </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($sellers as $seller)
+            {{-- Sellers Table --}}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="thead-dark">
                         <tr>
-                            <td>
-                                @if($seller->image_url)
-                                    <img src="{{ $seller->image_url }}" width="80" alt="{{ $seller->name_en }}">
-                                @else
-                                    <span class="text-muted">No Image</span>
-                                @endif
-                            </td>
-
-                            <td><strong>{{ $seller->name_ar }}</strong></td>
-                            <td><strong>{{ $seller->name_en }}</strong></td>
-
-                            <td><strong>{{ $seller->description_ar }}</strong></td>
-                            <td><strong>{{ $seller->description_en }}</strong></td>
-                            <td><strong>{{ $seller->phone }}</strong></td>
-                            <td><strong>{{ $seller->availability }}</strong></td>
-                            <td><strong>{{ $seller->rate }}</strong></td>
-                            <td>
-
-                                <button class="btn btn-sm btn-info edit-seller-btn" data-toggle="modal"
-                                    data-target="#editsellerModal{{ $seller->id }}" data-id="{{ $seller->id }}"
-                                    data-name_ar="{{ $seller->name_ar }}" data-name_en="{{ $seller->name_en }}"
-                                    data-description_ar="{{ $seller->description_ar }}" data-description_en="{{ $seller->description_en }}"
-                                    data-phone="{{ $seller->phone ?? '' }}" data-availability="{{ $seller->availability ?? '24/7' }}"
-                                    data-image="{{ $seller->image_url ?? '' }}">
-                                    Edit
-                                </button>
-
-                                <form action="{{ route('dashboard.sellers.destroy', $seller) }}" method="POST"
-                                    class="d-inline">
-                                    @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </form>
-                            </td>
+                            <th style="width: 80px;">Image</th>
+                            <th>Seller Name</th>
+                            <th>Phone</th>
+                            <th>Availability</th>
+                            <th style="width: 80px;">Rating</th>
+                            <th style="width: 200px;">Actions</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($sellers as $seller)
+                            <tr>
+                                <td>
+                                    @if($seller->image_url)
+                                        <img src="{{ $seller->image_url }}" 
+                                            class="img-thumbnail" 
+                                            style="width: 60px; height: 60px; object-fit: cover;"
+                                            alt="{{ $seller->name_en }}">
+                                    @else
+                                        <div class="bg-light d-flex align-items-center justify-content-center" 
+                                            style="width: 60px; height: 60px;">
+                                            <i class="fas fa-image text-muted"></i>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    <strong>{{ $seller->name_en }}</strong>
+                                    @if($seller->name_ar)
+                                        <br><small class="text-muted">{{ $seller->name_ar }}</small>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($seller->phone)
+                                        <span class="badge badge-secondary">{{ $seller->phone }}</span>
+                                    @else
+                                        <span class="text-muted">—</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($seller->availability)
+                                        <span class="badge badge-success">{{ $seller->availability }}</span>
+                                    @else
+                                        <span class="text-muted">—</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($seller->rating)
+                                        <span class="badge badge-warning">
+                                            <i class="fas fa-star"></i> {{ $seller->rating }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted">—</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                            data-target="#editsellerModal{{ $seller->id }}" 
+                                            title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <form action="{{ route('dashboard.sellers.destroy', $seller) }}" 
+                                            method="POST" class="d-inline" 
+                                            onsubmit="return confirm('Are you sure you want to delete this seller?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
 
+                            {{-- Edit Modal --}}
+                            @include('dashboard.Sellers.modals.edit', ['seller' => $seller])
 
-
-
-                        <!-- Edit Modal for Parent -->
-                        @include('dashboard.Sellers.modals.edit', ['seller' => $seller])
-
-
-                    @empty
-                        <tr>
-                            <td colspan="2">No sellers found.</td>
-                        </tr>
-                    @endforelse
-
-                </tbody>
-            </table>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="fas fa-inbox fa-3x text-muted mb-2"></i>
+                                    <p class="text-muted">No sellers found.</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    {{-- Create Modal --}}
     @include('dashboard.Sellers.modals.create')
 @stop
 
-
-
 @section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+    <style>
+        .table td {
+            vertical-align: middle;
+        }
+        .table th {
+            background-color: #343a40;
+            color: white;
+            font-weight: 600;
+        }
+        .btn-group .btn {
+            margin-right: 2px;
+        }
+        .btn-group .btn:last-child {
+            margin-right: 0;
+        }
+        .img-thumbnail {
+            border-radius: 4px;
+        }
+    </style>
 @stop
 
 @section('js')
     <script>
-        console.log("Hi, I'm using the Laravel-AdminLTE package!");
+        console.log("Sellers Index Page Loaded");
     </script>
 @stop
