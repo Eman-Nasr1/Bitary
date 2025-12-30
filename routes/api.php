@@ -35,6 +35,12 @@ Route::prefix('user')->group(function () {
     Route::post('password/reset', [UserController::class, 'resetPassword']);
 
 });
+
+// Provider Requests
+Route::middleware('auth:sanctum')->prefix('provider-request')->group(function () {
+    Route::post('/', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'store']);
+    Route::get('/status', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'status']);
+});
 Route::middleware('auth:sanctum')->post('logout', [UserController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/token/check', function () {

@@ -21,7 +21,7 @@ class CategoryController extends Controller
 
         $categories = $this->categoryService->listAllCategories($request->all());
 
-        return view('dashboard.categories.index', [
+        return view('dashboard.Categories.index', [
             'categories' => $categories['data'],
         ]);
     }

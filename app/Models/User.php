@@ -30,6 +30,7 @@ class User extends Model
         'social_id',
         'social_provider',
         'is_verified',
+        'is_provider',
         'otp_code',
         'otp_expires_at'
     ];
@@ -53,6 +54,7 @@ class User extends Model
             'password' => 'hashed',
             'is_active' => 'boolean',
             'is_verified' => 'boolean',
+            'is_provider' => 'boolean',
             'otp_expires_at' => 'datetime',
         ];
     }
@@ -61,6 +63,12 @@ class User extends Model
     public function toggleStatus()
     {
         $this->is_active = !$this->is_active;
+        $this->save();
+    }
+
+    public function toggleProviderStatus()
+    {
+        $this->is_provider = !$this->is_provider;
         $this->save();
     }
 
@@ -76,5 +84,10 @@ class User extends Model
     public function favoriteItems()
     {
         return $this->hasMany(Favorite::class);
+    }
+
+    public function providerRequest()
+    {
+        return $this->hasOne(ProviderRequest::class);
     }
 }

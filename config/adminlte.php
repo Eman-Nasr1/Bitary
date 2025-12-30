@@ -356,6 +356,18 @@ return [
            'icon' => 'fas fa-city',
             'label_color' => 'success',
         ],
+        [
+            'text' => 'Users',
+            'url' => 'dashboard/users',
+           'icon' => 'fas fa-users',
+            'label_color' => 'info',
+        ],
+        [
+            'text' => 'Provider Requests',
+            'url' => 'dashboard/provider-requests',
+           'icon' => 'fas fa-user-md',
+            'label_color' => 'warning',
+        ],
         // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',

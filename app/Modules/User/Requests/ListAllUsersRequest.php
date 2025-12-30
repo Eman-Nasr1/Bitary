@@ -11,7 +11,9 @@ class ListAllUsersRequest extends BaseRequest
     public function getFilters()
     {
         return [
-          
+            'name' => 'name',
+            'email' => 'email',
+            'phone' => 'phone',
         ];
     }
 

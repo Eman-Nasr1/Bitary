@@ -2,17 +2,17 @@
 
 namespace App\Modules\User\Requests;
 
-use Illuminate\Validation\Rules\Enum;
-use App\Modules\User\Enums\UserTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
-        $userId = $this->route('user') ?? $this->route('userId');
-        $userId = $userId instanceof \App\Models\User ? $userId->id : $userId;
-        
         return [
             'name' => 'required|string|max:255',
             'family_name' => 'nullable|string|max:255',
@@ -20,9 +20,9 @@ class UpdateUserRequest extends FormRequest
             'gender' => 'nullable|in:male,female',
             'city_id' => 'nullable|integer|exists:cities,id',
             'address' => 'nullable|string|max:500',
-            'email' => "required|email|unique:users,email,{$userId}",
-            'phone' => "required|string|unique:users,phone,{$userId}",
-            'password' => 'nullable|string|min:8|confirmed',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|unique:users,phone',
+            'password' => 'required|string|min:8|confirmed',
             'is_verified' => 'nullable|boolean',
             'is_provider' => 'nullable|boolean',
         ];

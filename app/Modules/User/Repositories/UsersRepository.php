@@ -22,9 +22,10 @@ class UsersRepository extends BaseRepository
     }
     public function create($user): User
     {
-        $otp = rand(100000, 999999);
-
-        $user = User::create([
+        $isVerified = $user['is_verified'] ?? false;
+        $isProvider = $user['is_provider'] ?? false;
+        
+        $userData = [
             'name' => $user['name'],
             'family_name' => $user['family_name'] ?? null,
             'age' => $user['age'] ?? null,
@@ -34,13 +35,24 @@ class UsersRepository extends BaseRepository
             'email' => $user['email'],
             'phone' => $user['phone'],
             'password' => Hash::make($user['password']),
-            'otp_code' => $otp,
-            'otp_expires_at' => Carbon::now()->addMinutes(10),
-            'is_verified' => false,
-            'is_active' => true,
-        ]);
+            'is_verified' => $isVerified,
+            'is_provider' => $isProvider,
+            'is_active' => $user['is_active'] ?? true,
+        ];
 
-        Mail::to($user->email)->send(new SendOtp($user->otp_code));
+        // Only send OTP if user is not verified
+        if (!$isVerified) {
+            $otp = rand(100000, 999999);
+            $userData['otp_code'] = $otp;
+            $userData['otp_expires_at'] = Carbon::now()->addMinutes(10);
+        }
+
+        $user = User::create($userData);
+
+        // Send OTP email only if user is not verified
+        if (!$isVerified && isset($otp)) {
+            Mail::to($user->email)->send(new SendOtp($otp));
+        }
 
         return $user;
     }

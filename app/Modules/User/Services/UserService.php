@@ -3,6 +3,7 @@
 namespace App\Modules\User\Services;
 
 use App\Modules\User\Resources\UserCollection;
+use App\Modules\User\Resources\UserResource;
 use App\Modules\User\Repositories\UsersRepository;
 use App\Modules\User\Requests\ListAllUsersRequest;
 
@@ -61,6 +62,9 @@ class UserService
 
         
         return response()->json([
+            'status' => 'success',
+            'message' => 'Login successful',
+            'user' => new UserResource($user),
             'token' => $token,
         ]);
     }
@@ -96,6 +100,16 @@ class UserService
         return $user;
     }
 
+    public function toggleProviderStatus($id)
+    {
+        $user = $this->usersRepository->find($id);
+        if (!$user) {
+            return null;
+        }
+        $user->toggleProviderStatus();
+        return $user;
+    }
+
     public function getUserById($id)
     {
         return $this->usersRepository->find($id);
@@ -114,12 +128,14 @@ class UserService
             'phone' => $request['phone'] ?? null,
             'social_id' => $request['social_id'] ?? null,
             'social_provider' => $request['social_provider'] ?? null,
-            'is_verified' => $request['isVerified'] ?? false,
+            'is_verified' => $request['isVerified'] ?? $request['is_verified'] ?? false,
+            'is_provider' => $request['is_provider'] ?? false,
             'otp_code' => $request['otp_code'] ?? null,
             'otp_expires_at' => $request['otp_expires_at'] ?? null,
         ];
     
-        if (isset($request['password'])) {
+        // Only include password if provided and not empty
+        if (isset($request['password']) && !empty($request['password'])) {
             $userModel['password'] = $request['password'];
         }
     
