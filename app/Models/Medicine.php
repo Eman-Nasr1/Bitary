@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class Medicine extends Model
 {
@@ -92,25 +93,29 @@ class Medicine extends Model
             if (empty($image)) {
                 return null;
             }
-            // Reject temporary file paths and absolute paths
-            if (stripos($image, 'tmp') !== false ||
-                stripos($image, 'php') !== false ||
-                stripos($image, 'xampp') !== false ||
-                stripos($image, '\\') !== false ||
-                preg_match('/^[a-zA-Z]:\\\\/', $image) || // Windows absolute path
-                strpos($image, '/') === 0) { // Unix absolute path
+            
+            // Only reject obviously invalid paths (absolute Windows paths, absolute Unix paths starting with /)
+            if (preg_match('/^[a-zA-Z]:\\\\/', $image) || strpos($image, '/') === 0) {
+                Log::warning('Medicine: Rejected absolute path', ['image' => $image, 'id' => $this->id ?? null]);
                 return null;
             }
-            // Only process valid relative paths (e.g., "medicines/filename.jpg")
-            if (strpos($image, '/') === false || strpos($image, '..') !== false) {
-                return null;
-            }
+            
             // Check if file exists in storage
             if (!Storage::disk('public')->exists($image)) {
+                Log::warning('Medicine: Image file does not exist', ['image' => $image, 'id' => $this->id ?? null]);
                 return null;
             }
-            return Storage::disk('public')->url($image);
+            
+            // Generate relative URL to work with any domain/port
+            $url = '/storage/' . $image;
+            Log::info('Medicine: Generated image URL', ['image' => $image, 'url' => $url, 'id' => $this->id ?? null]);
+            return $url;
         } catch (\Throwable $e) {
+            Log::error('Medicine image URL error: ' . $e->getMessage(), [
+                'image' => $this->attributes['image'] ?? null,
+                'medicine_id' => $this->id ?? null,
+                'trace' => $e->getTraceAsString()
+            ]);
             return null;
         }
     }

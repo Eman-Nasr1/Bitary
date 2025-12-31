@@ -56,12 +56,15 @@
                                         <img src="{{ $animalType->image_url }}" 
                                             class="img-thumbnail" 
                                             style="width: 60px; height: 60px; object-fit: cover;"
-                                            alt="{{ $animalType->name_en }}">
-                                    @else
-                                        <div class="bg-light d-flex align-items-center justify-content-center" 
-                                            style="width: 60px; height: 60px;">
+                                            alt="{{ $animalType->name_en }}"
+                                            onerror="console.error('Image failed to load:', this.src); this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <div class="" 
+                                            style="width: 60px; height: 60px; display: none;">
                                             <i class="fas fa-image text-muted"></i>
                                         </div>
+                                    @else
+                                      
+                                        <!-- Debug: Image path = {{ $animalType->image ?? 'NULL' }} -->
                                     @endif
                                 </td>
                                 <td>

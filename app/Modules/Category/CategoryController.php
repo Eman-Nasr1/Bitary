@@ -33,7 +33,7 @@ class CategoryController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $data['image'] = $this->uploadImage($request->file('image'));
+            $data['image'] = $this->uploadImage($request->file('image'), 'categories');
         }
         $this->categoryService->createCategory($data);
 
@@ -51,7 +51,7 @@ class CategoryController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $data['image'] = $this->updateImage($category->image, $request->file('image'));
+            $data['image'] = $this->updateImage($category->image, $request->file('image'), 'categories');
         } else {
             $data['image'] = $category->image;
         }

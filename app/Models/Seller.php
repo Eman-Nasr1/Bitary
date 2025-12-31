@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Traits\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class Seller extends Model
 {
@@ -21,32 +23,37 @@ class Seller extends Model
     public function getImageUrlAttribute()
     {
         try {
-            if (empty($this->image)) {
+            $image = $this->attributes['image'] ?? null;
+            if (empty($image)) {
                 return null;
             }
-            
-            // If it's an old path format (public folder), convert it
-            $image = trim($this->image);
+            $image = trim($image);
             if (empty($image)) {
                 return null;
             }
             
-            // Reject temporary file paths and absolute paths
-            if (stripos($image, 'tmp') !== false || 
-                stripos($image, 'php') !== false || 
-                stripos($image, 'xampp') !== false ||
-                stripos($image, '\\') !== false ||
-                preg_match('/^[a-zA-Z]:\\\\/', $image)) {
+            // Only reject obviously invalid paths (absolute Windows paths, absolute Unix paths starting with /)
+            if (preg_match('/^[a-zA-Z]:\\\\/', $image) || strpos($image, '/') === 0) {
+                Log::warning('Seller: Rejected absolute path', ['image' => $image, 'id' => $this->id ?? null]);
                 return null;
             }
             
-            // Use Storage to get the URL for stored files
-            if (Storage::disk('public')->exists($image)) {
-                return Storage::disk('public')->url($image);
+            // Check if file exists in storage
+            if (!Storage::disk('public')->exists($image)) {
+                Log::warning('Seller: Image file does not exist', ['image' => $image, 'id' => $this->id ?? null]);
+                return null;
             }
             
-            return null;
+            // Generate relative URL to work with any domain/port
+            $url = '/storage/' . $image;
+            Log::info('Seller: Generated image URL', ['image' => $image, 'url' => $url, 'id' => $this->id ?? null]);
+            return $url;
         } catch (\Throwable $e) {
+            Log::error('Seller image URL error: ' . $e->getMessage(), [
+                'image' => $this->attributes['image'] ?? null,
+                'seller_id' => $this->id ?? null,
+                'trace' => $e->getTraceAsString()
+            ]);
             return null;
         }
     }
