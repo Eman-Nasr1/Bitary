@@ -33,6 +33,16 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('provider-requests/{id}', [\App\Modules\ProviderRequest\AdminProviderRequestController::class, 'show'])->name('provider-requests.show')->middleware('auth:admin');
     Route::post('provider-requests/{id}/approve', [\App\Modules\ProviderRequest\AdminProviderRequestController::class, 'approve'])->name('provider-requests.approve')->middleware('auth:admin');
     Route::post('provider-requests/{id}/reject', [\App\Modules\ProviderRequest\AdminProviderRequestController::class, 'reject'])->name('provider-requests.reject')->middleware('auth:admin');
+    
+    // Courses
+    Route::resource('courses', \App\Http\Controllers\CourseController::class)->middleware('auth:admin');
+    Route::post('courses/instructors', [\App\Http\Controllers\CourseController::class, 'storeInstructor'])->name('courses.instructors.store')->middleware('auth:admin');
+    
+    // Instructors
+    Route::resource('instructors', \App\Http\Controllers\InstructorController::class)->middleware('auth:admin');
+    
+    // Specializations
+    Route::resource('specializations', \App\Http\Controllers\SpecializationController::class)->middleware('auth:admin');
 });
 Auth::routes();
 

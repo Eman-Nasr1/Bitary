@@ -41,6 +41,10 @@ Route::middleware('auth:sanctum')->prefix('provider-request')->group(function ()
     Route::post('/', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'store']);
     Route::get('/status', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'status']);
 });
+
+// Providers (Doctors & Clinics)
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('doctors', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'getProviders']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('doctors/{id}', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'getProvider']);
 Route::middleware('auth:sanctum')->post('logout', [UserController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/token/check', function () {
@@ -67,6 +71,10 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->
 //medicines
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('products', [ApiMedicineController::class, 'listAllMedicines']);
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('/products/{id}', [ApiMedicineController::class, 'show']);
+
+//courses
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('courses', [\App\Modules\Course\ApiCourseController::class, 'listAllCourses']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('courses/{id}', [\App\Modules\Course\ApiCourseController::class, 'show']);
 
 //locations
 

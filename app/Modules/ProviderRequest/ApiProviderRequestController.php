@@ -109,11 +109,11 @@ class ApiProviderRequestController extends Controller
 
         // Add document URLs if they exist
         if ($providerRequest->id_document) {
-            $responseData['id_document_url'] = Storage::disk('public')->url($providerRequest->id_document);
+            $responseData['id_document_url'] = url('/storage/' . $providerRequest->id_document);
         }
 
         if ($providerRequest->license_document) {
-            $responseData['license_document_url'] = Storage::disk('public')->url($providerRequest->license_document);
+            $responseData['license_document_url'] = url('/storage/' . $providerRequest->license_document);
         }
 
         return response()->json([
@@ -121,6 +121,134 @@ class ApiProviderRequestController extends Controller
             'message' => 'Provider request status retrieved successfully',
             'data' => $responseData
         ]);
+    }
+
+    /**
+     * Get all approved providers (doctors or clinics)
+     */
+    public function getProviders(Request $request)
+    {
+        $query = \App\Models\ProviderRequest::with('user')
+            ->where('status', 'approved')
+            ->whereIn('provider_type', ['doctor', 'clinic']);
+
+        // Filter by provider type if specified
+        if ($request->has('provider_type')) {
+            $providerType = $request->get('provider_type');
+            if (in_array($providerType, ['doctor', 'clinic'])) {
+                $query->where('provider_type', $providerType);
+            }
+        }
+
+        // Search
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where(function($q) use ($search) {
+                $q->where('entity_name', 'LIKE', "%{$search}%")
+                  ->orWhere('specialty', 'LIKE', "%{$search}%")
+                  ->orWhere('address', 'LIKE', "%{$search}%")
+                  ->orWhereHas('user', function($userQuery) use ($search) {
+                      $userQuery->where('name', 'LIKE', "%{$search}%")
+                                ->orWhere('email', 'LIKE', "%{$search}%")
+                                ->orWhere('phone', 'LIKE', "%{$search}%");
+                  });
+            });
+        }
+
+        // Pagination
+        $perPage = $request->get('per_page', 10);
+        $providers = $query->orderBy('id', 'DESC')->paginate($perPage);
+
+        // Format response data
+        $formattedProviders = $providers->map(function($providerRequest) {
+            $user = $providerRequest->user;
+            
+            return [
+                'id' => $providerRequest->id,
+                'provider_type' => $providerRequest->provider_type,
+                'entity_name' => $providerRequest->entity_name,
+                'specialty' => $providerRequest->specialty,
+                'degree' => $providerRequest->degree,
+                'phone' => $providerRequest->phone,
+                'whatsapp' => $providerRequest->whatsapp,
+                'email' => $providerRequest->email,
+                'address' => $providerRequest->address,
+                'google_maps_link' => $providerRequest->google_maps_link,
+                'user' => $user ? [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'family_name' => $user->family_name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'city_id' => $user->city_id,
+                ] : null,
+                'created_at' => $providerRequest->created_at,
+                'updated_at' => $providerRequest->updated_at,
+            ];
+        });
+
+        return successJsonResponse(
+            $formattedProviders->toArray(),
+            'Providers retrieved successfully',
+            $providers->total()
+        );
+    }
+
+    /**
+     * Get single provider by ID
+     */
+    public function getProvider($id)
+    {
+        $providerRequest = \App\Models\ProviderRequest::with('user')
+            ->where('status', 'approved')
+            ->whereIn('provider_type', ['doctor', 'clinic'])
+            ->find($id);
+
+        if (!$providerRequest) {
+            return errorJsonResponse(
+                'Provider not found',
+                404
+            );
+        }
+
+        $user = $providerRequest->user;
+
+        $formattedProvider = [
+            'id' => $providerRequest->id,
+            'provider_type' => $providerRequest->provider_type,
+            'entity_name' => $providerRequest->entity_name,
+            'specialty' => $providerRequest->specialty,
+            'degree' => $providerRequest->degree,
+            'phone' => $providerRequest->phone,
+            'whatsapp' => $providerRequest->whatsapp,
+            'email' => $providerRequest->email,
+            'address' => $providerRequest->address,
+            'google_maps_link' => $providerRequest->google_maps_link,
+            'user' => $user ? [
+                'id' => $user->id,
+                'name' => $user->name,
+                'family_name' => $user->family_name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'city_id' => $user->city_id,
+            ] : null,
+            'created_at' => $providerRequest->created_at,
+            'updated_at' => $providerRequest->updated_at,
+        ];
+
+        // Add document URLs if they exist
+        if ($providerRequest->id_document) {
+            $formattedProvider['id_document_url'] = url('/storage/' . $providerRequest->id_document);
+        }
+
+        if ($providerRequest->license_document) {
+            $formattedProvider['license_document_url'] = url('/storage/' . $providerRequest->license_document);
+        }
+
+        return successJsonResponse(
+            $formattedProvider,
+            'Provider retrieved successfully'
+        );
     }
 }
 

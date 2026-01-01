@@ -363,6 +363,24 @@ return [
             'label_color' => 'info',
         ],
         [
+            'text' => 'Courses',
+            'url' => 'dashboard/courses',
+           'icon' => 'fas fa-graduation-cap',
+            'label_color' => 'success',
+        ],
+        [
+            'text' => 'Instructors',
+            'url' => 'dashboard/instructors',
+           'icon' => 'fas fa-chalkboard-teacher',
+            'label_color' => 'info',
+        ],
+        [
+            'text' => 'Specializations',
+            'url' => 'dashboard/specializations',
+           'icon' => 'fas fa-tags',
+            'label_color' => 'primary',
+        ],
+        [
             'text' => 'Provider Requests',
             'url' => 'dashboard/provider-requests',
            'icon' => 'fas fa-user-md',
