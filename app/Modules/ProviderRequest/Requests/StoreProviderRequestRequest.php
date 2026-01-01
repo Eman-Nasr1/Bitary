@@ -14,6 +14,7 @@ class StoreProviderRequestRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'provider_type' => 'required|in:doctor,clinic,pharmacy,company',
             'entity_name' => 'required|string|max:255',
             'specialty' => 'nullable|string|max:255',
             'degree' => 'nullable|string|max:255',

@@ -15,6 +15,9 @@
 
                 <div class="modal-body">
                     <p>Are you sure you want to approve this provider request?</p>
+                    <p><strong>Provider Type:</strong> 
+                        <span class="badge badge-primary">{{ ucfirst($request->provider_type) }}</span>
+                    </p>
                     <p><strong>Entity:</strong> {{ $request->entity_name }}</p>
                     <p><strong>User:</strong> {{ $request->user->name ?? 'N/A' }}</p>
                     

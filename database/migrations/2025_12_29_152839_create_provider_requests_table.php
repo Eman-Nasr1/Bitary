@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('provider_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->enum('provider_type', ['doctor', 'clinic', 'pharmacy', 'company'])->default('doctor');
             $table->string('entity_name'); // Clinic/Company name
             $table->string('specialty')->nullable();
             $table->string('degree')->nullable();

@@ -76,10 +76,35 @@
 
             <hr>
 
-            <h5 class="mb-3">Provider Information</h5>
+                    <h5 class="mb-3">Provider Information</h5>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered">
+                        <tr>
+                            <th width="20%">Provider Type:</th>
+                            <td>
+                                @php
+                                    $typeColors = [
+                                        'doctor' => 'primary',
+                                        'clinic' => 'info',
+                                        'pharmacy' => 'success',
+                                        'company' => 'warning'
+                                    ];
+                                    $typeIcons = [
+                                        'doctor' => 'user-md',
+                                        'clinic' => 'hospital',
+                                        'pharmacy' => 'pills',
+                                        'company' => 'building'
+                                    ];
+                                    $color = $typeColors[$request->provider_type] ?? 'secondary';
+                                    $icon = $typeIcons[$request->provider_type] ?? 'tag';
+                                @endphp
+                                <span class="badge badge-{{ $color }} badge-lg">
+                                    <i class="fas fa-{{ $icon }}"></i> 
+                                    {{ ucfirst($request->provider_type) }}
+                                </span>
+                            </td>
+                        </tr>
                         <tr>
                             <th width="20%">Entity Name:</th>
                             <td><strong>{{ $request->entity_name }}</strong></td>

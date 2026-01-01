@@ -16,16 +16,26 @@
             {{-- Filters --}}
             <form action="{{ route('dashboard.provider-requests.index') }}" method="GET" class="mb-3">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <select name="filters[status]" class="form-control">
                             <option value="">All Statuses</option>
                             <option value="pending" {{ request('filters.status') == 'pending' ? 'selected' : '' }}>Pending</option>
                             <option value="approved" {{ request('filters.status') == 'approved' ? 'selected' : '' }}>Approved</option>
                             <option value="rejected" {{ request('filters.status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
                         </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="filters[provider_type]" class="form-control">
+                            <option value="">All Provider Types</option>
+                            <option value="doctor" {{ request('filters.provider_type') == 'doctor' ? 'selected' : '' }}>Doctor</option>
+                            <option value="clinic" {{ request('filters.provider_type') == 'clinic' ? 'selected' : '' }}>Clinic</option>
+                            <option value="pharmacy" {{ request('filters.provider_type') == 'pharmacy' ? 'selected' : '' }}>Pharmacy</option>
+                            <option value="company" {{ request('filters.provider_type') == 'company' ? 'selected' : '' }}>Company</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
                         <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
                         <input type="hidden" name="offset" value="0">
-                    </div>
                     <div class="col-md-8">
                         <button type="submit" class="btn btn-secondary">
                             <i class="fas fa-search"></i> Filter
@@ -47,6 +57,9 @@
                                 @if(request('filters.status'))
                                     <input type="hidden" name="filters[status]" value="{{ request('filters.status') }}">
                                 @endif
+                                @if(request('filters.provider_type'))
+                                    <input type="hidden" name="filters[provider_type]" value="{{ request('filters.provider_type') }}">
+                                @endif
                             </form>
                         </div>
                     </div>
@@ -60,6 +73,7 @@
                         <tr>
                             <th style="width: 80px;">ID</th>
                             <th>User</th>
+                            <th>Provider Type</th>
                             <th>Entity Name</th>
                             <th>Email</th>
                             <th>Phone</th>
@@ -77,6 +91,28 @@
                                     @if($request->user->email ?? null)
                                         <br><small class="text-muted">{{ $request->user->email }}</small>
                                     @endif
+                                </td>
+                                <td>
+                                    @php
+                                        $typeColors = [
+                                            'doctor' => 'primary',
+                                            'clinic' => 'info',
+                                            'pharmacy' => 'success',
+                                            'company' => 'warning'
+                                        ];
+                                        $typeIcons = [
+                                            'doctor' => 'user-md',
+                                            'clinic' => 'hospital',
+                                            'pharmacy' => 'pills',
+                                            'company' => 'building'
+                                        ];
+                                        $color = $typeColors[$request->provider_type] ?? 'secondary';
+                                        $icon = $typeIcons[$request->provider_type] ?? 'tag';
+                                    @endphp
+                                    <span class="badge badge-{{ $color }}">
+                                        <i class="fas fa-{{ $icon }}"></i> 
+                                        {{ ucfirst($request->provider_type) }}
+                                    </span>
                                 </td>
                                 <td><strong>{{ $request->entity_name }}</strong></td>
                                 <td>{{ $request->email }}</td>
@@ -116,7 +152,7 @@
                             @include('dashboard.ProviderRequests.modals.reject', ['request' => $request])
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4">
+                                <td colspan="9" class="text-center py-4">
                                     <i class="fas fa-inbox fa-3x text-muted mb-2"></i>
                                     <p class="text-muted">No provider requests found.</p>
                                 </td>
