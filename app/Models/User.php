@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Model
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -31,6 +31,7 @@ class User extends Model
         'social_provider',
         'is_verified',
         'is_provider',
+        'role',
         'otp_code',
         'otp_expires_at'
     ];
@@ -89,5 +90,36 @@ class User extends Model
     public function providerRequest()
     {
         return $this->hasOne(ProviderRequest::class);
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'provider_id');
+    }
+
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class, 'provider_id');
+    }
+
+    public function medicines()
+    {
+        return $this->hasMany(Medicine::class, 'provider_id');
+    }
+
+    // Helper methods
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isProvider(): bool
+    {
+        return $this->role === 'provider' || $this->is_provider;
+    }
+
+    public function isUser(): bool
+    {
+        return $this->role === 'user' || (!$this->is_provider && !$this->isAdmin());
     }
 }

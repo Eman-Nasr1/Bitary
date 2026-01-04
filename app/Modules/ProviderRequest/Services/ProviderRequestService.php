@@ -78,7 +78,10 @@ class ProviderRequestService
         // Make user a provider
         $user = User::find($request->user_id);
         if ($user) {
-            $user->update(['is_provider' => true]);
+            $user->update([
+                'is_provider' => true,
+                'role' => 'provider'
+            ]);
         }
 
         return $request->fresh(['user', 'reviewedBy']);

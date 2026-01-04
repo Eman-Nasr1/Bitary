@@ -39,6 +39,11 @@ class ApiProviderRequestController extends Controller
 
             $data = $request->validated();
 
+            // Handle image upload
+            if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                $data['image'] = $this->uploadImage($request->file('image'), 'provider-requests');
+            }
+
             // Handle file uploads
             if ($request->hasFile('id_document')) {
                 $data['id_document'] = $request->file('id_document')->store('provider-documents', 'public');
@@ -100,6 +105,7 @@ class ApiProviderRequestController extends Controller
             'email' => $providerRequest->email,
             'address' => $providerRequest->address,
             'google_maps_link' => $providerRequest->google_maps_link,
+            'image_url' => $providerRequest->image_url,
             'status' => $providerRequest->status,
             'admin_note' => $providerRequest->admin_note,
             'reviewed_at' => $providerRequest->reviewed_at,
@@ -174,6 +180,7 @@ class ApiProviderRequestController extends Controller
                 'email' => $providerRequest->email,
                 'address' => $providerRequest->address,
                 'google_maps_link' => $providerRequest->google_maps_link,
+                'image_url' => $providerRequest->image_url,
                 'user' => $user ? [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -224,6 +231,7 @@ class ApiProviderRequestController extends Controller
             'email' => $providerRequest->email,
             'address' => $providerRequest->address,
             'google_maps_link' => $providerRequest->google_maps_link,
+            'image_url' => $providerRequest->image_url,
             'user' => $user ? [
                 'id' => $user->id,
                 'name' => $user->name,

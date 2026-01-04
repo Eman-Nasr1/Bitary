@@ -28,6 +28,7 @@ class Medicine extends Model
         'dimensions',
         'category_id',
         'seller_id',
+        'provider_id',
         'product_type_en',
         'product_type_ar',
         'manufacturer_en',
@@ -132,6 +133,11 @@ class Medicine extends Model
     public function seller()
     {
         return $this->belongsTo(Seller::class); // أو Seller::class لو غيرت العمود لـ seller_id
+    }
+
+    public function provider()
+    {
+        return $this->belongsTo(User::class, 'provider_id');
     }
 
     public function getFinalPriceAttribute()

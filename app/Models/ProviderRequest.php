@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProviderRequest extends Model
 {
@@ -21,6 +23,7 @@ class ProviderRequest extends Model
         'email',
         'address',
         'google_maps_link',
+        'image',
         'id_document',
         'license_document',
         'status',
@@ -32,6 +35,8 @@ class ProviderRequest extends Model
     protected $casts = [
         'reviewed_at' => 'datetime',
     ];
+
+    protected $appends = ['image_url'];
 
     // Relationships
     public function user()
@@ -61,5 +66,36 @@ class ProviderRequest extends Model
             }
         }
         return $query;
+    }
+
+    /**
+     * Get the image URL attribute
+     */
+    public function getImageUrlAttribute()
+    {
+        try {
+            $image = $this->attributes['image'] ?? null;
+            if (empty($image)) {
+                return null;
+            }
+            $image = trim($image);
+            if (empty($image)) {
+                return null;
+            }
+
+            if (preg_match('/^[a-zA-Z]:\\\\/', $image) || strpos($image, '/') === 0) {
+                Log::warning('ProviderRequest: Rejected absolute path', ['image' => $image, 'id' => $this->id ?? null]);
+                return null;
+            }
+
+            if (!Storage::disk('public')->exists($image)) {
+                Log::warning('ProviderRequest: Image file does not exist', ['image' => $image, 'id' => $this->id ?? null]);
+                return null;
+            }
+            return Storage::disk('public')->url($image);
+        } catch (\Throwable $e) {
+            Log::error('ProviderRequest image URL error: ' . $e->getMessage(), ['image' => $this->attributes['image'] ?? null, 'provider_request_id' => $this->id ?? null, 'trace' => $e->getTraceAsString()]);
+            return null;
+        }
     }
 }

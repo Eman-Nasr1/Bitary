@@ -35,6 +35,14 @@ class ApiCourseController extends Controller
             $query->where('language', $request->language);
         }
 
+        // Filter by specialization (course-specializations)
+        if ($request->has('specialization_id') || $request->has('course-specializations')) {
+            $specializationId = $request->get('specialization_id') ?? $request->get('course-specializations');
+            $query->whereHas('specializations', function($q) use ($specializationId) {
+                $q->where('specializations.id', $specializationId);
+            });
+        }
+
         // Search
         if ($request->has('search')) {
             $search = $request->get('search');

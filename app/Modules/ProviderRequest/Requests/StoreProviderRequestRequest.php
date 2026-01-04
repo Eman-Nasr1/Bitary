@@ -23,6 +23,7 @@ class StoreProviderRequestRequest extends FormRequest
             'email' => 'required|email|max:255',
             'address' => 'required|string|max:500',
             'google_maps_link' => 'nullable|url|max:500',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max
             'id_document' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120', // 5MB max
             'license_document' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120', // 5MB max
         ];

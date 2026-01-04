@@ -45,6 +45,11 @@ Route::middleware('auth:sanctum')->prefix('provider-request')->group(function ()
 // Providers (Doctors & Clinics)
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('doctors', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'getProviders']);
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('doctors/{id}', [\App\Modules\ProviderRequest\ApiProviderRequestController::class, 'getProvider']);
+
+// Job Applications
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->post('jobs/{jobId}/apply', [\App\Http\Controllers\Api\JobApplicationController::class, 'apply']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('my-applications', [\App\Http\Controllers\Api\JobApplicationController::class, 'myApplications']);
+
 Route::middleware('auth:sanctum')->post('logout', [UserController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/token/check', function () {
@@ -75,6 +80,18 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->
 //courses
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('courses', [\App\Modules\Course\ApiCourseController::class, 'listAllCourses']);
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('courses/{id}', [\App\Modules\Course\ApiCourseController::class, 'show']);
+
+//jobs
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('jobs', [\App\Http\Controllers\Api\JobController::class, 'index']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('jobs/{id}', [\App\Http\Controllers\Api\JobController::class, 'show']);
+
+//job-specializations
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('job-specializations', [\App\Http\Controllers\Api\JobSpecializationController::class, 'index']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('job-specializations/{id}', [\App\Http\Controllers\Api\JobSpecializationController::class, 'show']);
+
+//course-specializations
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('course-specializations', [\App\Http\Controllers\Api\CourseSpecializationController::class, 'index']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('course-specializations/{id}', [\App\Http\Controllers\Api\CourseSpecializationController::class, 'show']);
 
 //locations
 

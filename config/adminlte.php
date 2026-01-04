@@ -14,6 +14,7 @@ return [
     |
     */
 
+
     'title' => 'AdminLTE 3',
     'title_prefix' => '',
     'title_postfix' => '',
@@ -316,75 +317,123 @@ return [
             'text' => 'search',
         ],
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        [
             'text' => 'Animals',
             'url' => 'dashboard/animals',
            'icon' => 'fas fa-paw',
             'label_color' => 'success',
+            'admin_only' => true,
         ],
         [
             'text' => 'Animal Types',
             'url' => 'dashboard/animal_types',
            'icon' => 'fas fa-tags',
             'label_color' => 'success',
+            'admin_only' => true,
         ],
         [
             'text' => 'Categories',
             'url' => 'dashboard/categories',
            'icon' => 'fas fa-folder',
             'label_color' => 'success',
+            'admin_only' => true,
         ],
          [
             'text' => 'Sellers',
             'url' => 'dashboard/sellers',
            'icon' => 'fas fa-user-tie',
             'label_color' => 'success',
+            'admin_only' => true,
         ],
          [
             'text' => 'Products',
             'url' => 'dashboard/medicines',
            'icon' => 'fas fa-pills',
             'label_color' => 'success',
+            'admin_only' => true,
         ],
         [
             'text' => 'Cities',
             'url' => 'dashboard/cities',
            'icon' => 'fas fa-city',
             'label_color' => 'success',
+            'admin_only' => true,
         ],
         [
             'text' => 'Users',
             'url' => 'dashboard/users',
            'icon' => 'fas fa-users',
             'label_color' => 'info',
+            'admin_only' => true,
         ],
         [
             'text' => 'Courses',
             'url' => 'dashboard/courses',
            'icon' => 'fas fa-graduation-cap',
             'label_color' => 'success',
+            'admin_only' => true,
         ],
         [
             'text' => 'Instructors',
             'url' => 'dashboard/instructors',
            'icon' => 'fas fa-chalkboard-teacher',
             'label_color' => 'info',
+            'admin_only' => true,
         ],
         [
-            'text' => 'Specializations',
+            'text' => 'Courses Specializations',
             'url' => 'dashboard/specializations',
            'icon' => 'fas fa-tags',
             'label_color' => 'primary',
+            'admin_only' => true,
         ],
         [
             'text' => 'Provider Requests',
             'url' => 'dashboard/provider-requests',
            'icon' => 'fas fa-user-md',
             'label_color' => 'warning',
+            'admin_only' => true,
+        ],
+        [
+            'text' => 'Jobs',
+            'url' => 'dashboard/admin/jobs',
+           'icon' => 'fas fa-briefcase',
+            'label_color' => 'info',
+            'admin_only' => true,
+        ],
+        [
+            'text' => 'Job Applications',
+            'url' => 'dashboard/admin/job-applications',
+           'icon' => 'fas fa-file-alt',
+            'label_color' => 'success',
+            'admin_only' => true,
+        ],
+        [
+            'text' => 'Job Specializations',
+            'url' => 'dashboard/admin/job-specializations',
+           'icon' => 'fas fa-tags',
+            'label_color' => 'primary',
+            'admin_only' => true,
+        ],
+        [
+            'text' => 'My Jobs',
+            'url' => 'dashboard/provider/jobs',
+           'icon' => 'fas fa-briefcase',
+            'label_color' => 'info',
+            'provider_only' => true,
+        ],
+        [
+            'text' => 'Job Applications',
+            'url' => 'dashboard/provider/job-applications',
+           'icon' => 'fas fa-file-alt',
+            'label_color' => 'success',
+            'provider_only' => true,
+        ],
+        [
+            'text' => 'My Products',
+            'url' => 'dashboard/provider/medicines',
+           'icon' => 'fas fa-pills',
+            'label_color' => 'success',
+            'provider_only' => true,
         ],
         // ['header' => 'account_settings'],
         // [
@@ -466,6 +515,7 @@ return [
     */
 
     'filters' => [
+        \App\Menu\Filters\RoleMenuFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\GateFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,

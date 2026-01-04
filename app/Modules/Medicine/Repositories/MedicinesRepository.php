@@ -43,6 +43,13 @@ class MedicinesRepository extends BaseRepository
                 unset($filters['category_id']);
             }
             
+            // Handle provider_id filter (direct column)
+            if (isset($filters['provider_id'])) {
+                $providerId = $filters['provider_id'];
+                $query->where('provider_id', $providerId);
+                unset($filters['provider_id']);
+            }
+            
             // Apply remaining filters using whereLike
             if (!empty($filters)) {
                 $query->whereLike($filters);

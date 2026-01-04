@@ -19,7 +19,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        
         Rating::observe(RatingObserver::class);
+        
+        // Register policies
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Job::class, \App\Policies\JobPolicy::class);
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\JobApplication::class, \App\Policies\JobApplicationPolicy::class);
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Medicine::class, \App\Policies\MedicinePolicy::class);
     }
 }
