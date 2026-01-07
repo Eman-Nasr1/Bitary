@@ -31,6 +31,14 @@ class JobController extends Controller
             $query->where('provider_id', $request->provider_id);
         }
 
+        // Filter by job_type
+        if ($request->has('job_type')) {
+            $jobType = $request->get('job_type');
+            if (in_array($jobType, ['full_time', 'part_time'])) {
+                $query->where('job_type', $jobType);
+            }
+        }
+
         // Search
         if ($request->has('search')) {
             $search = $request->search;
@@ -56,6 +64,11 @@ class JobController extends Controller
                     'id' => $job->id,
                     'title_ar' => $job->title_ar,
                     'title_en' => $job->title_en,
+                    'job_type' => $job->job_type,
+                    'description' => [
+                        'ar' => $job->description_ar,
+                        'en' => $job->description_en,
+                    ],
                     'description_ar' => $job->description_ar,
                     'description_en' => $job->description_en,
                     'responsibilities_ar' => $job->responsibilities_ar,
@@ -115,6 +128,11 @@ class JobController extends Controller
             'id' => $job->id,
             'title_ar' => $job->title_ar,
             'title_en' => $job->title_en,
+            'job_type' => $job->job_type,
+            'description' => [
+                'ar' => $job->description_ar,
+                'en' => $job->description_en,
+            ],
             'description_ar' => $job->description_ar,
             'description_en' => $job->description_en,
             'responsibilities_ar' => $job->responsibilities_ar,

@@ -15,7 +15,51 @@ class AnimalService
     }
   public function listAllAnimals(array $queryParameters)
     {
+        // Handle search parameter (searches in name_en and name_ar)
+        $searchTerm = null;
+        if (isset($queryParameters['search'])) {
+            $searchTerm = $queryParameters['search'];
+        } elseif (isset($queryParameters['title'])) {
+            $searchTerm = $queryParameters['title'];
+        }
 
+        // If search term exists, build query directly
+        if ($searchTerm) {
+            $query = Animal::with(['animalType']);
+            
+            // Search in both name_en and name_ar
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name_en', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('name_ar', 'LIKE', "%{$searchTerm}%");
+            });
+
+            // Apply other filters if they exist
+            $listAllAnimals = (new ListAllAnimalsRequest)->constructQueryCriteria($queryParameters);
+            $filters = data_get($listAllAnimals, 'filters', []);
+            if (!empty($filters)) {
+                foreach ($filters as $field => $value) {
+                    if (!empty($value)) {
+                        $query->where($field, 'LIKE', '%' . $value . '%');
+                    }
+                }
+            }
+
+            // Apply pagination and sorting
+            $limit = data_get($listAllAnimals, 'limit', 10);
+            $offset = data_get($listAllAnimals, 'offset', 0);
+            $sortBy = data_get($listAllAnimals, 'sortBy', 'id');
+            $sort = data_get($listAllAnimals, 'sort', 'DESC');
+
+            $count = $query->count();
+            $data = $query->skip($offset)->take($limit)->orderBy($sortBy, $sort)->get();
+
+            return [
+                'data' => new AnimalCollection($data),
+                'count' => $count
+            ];
+        }
+
+        // Normal flow without search
         $listAllAnimals= (new ListAllAnimalsRequest)->constructQueryCriteria($queryParameters);
 
         $animals= $this->animalsRepository->findAllBy($listAllAnimals, ['animalType']);

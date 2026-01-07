@@ -129,12 +129,9 @@ class CourseController extends Controller
         }
 
         // Handle boolean fields
-        if ($request->has('certificate_available')) {
-            $data['certificate_available'] = $request->certificate_available == '1';
-        }
-        if ($request->has('is_free')) {
-            $data['is_free'] = $request->is_free == '1';
-        }
+        // Checkbox fields: if not present in request, set to false
+        $data['certificate_available'] = $request->has('certificate_available') && $request->certificate_available == '1';
+        $data['is_free'] = $request->has('is_free') && $request->is_free == '1';
 
         $course->update($data);
 

@@ -91,6 +91,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Job Type</label>
+                    <select name="job_type" class="form-control @error('job_type') is-invalid @enderror">
+                        <option value="">Select Job Type</option>
+                        <option value="full_time" {{ old('job_type', $job->job_type) == 'full_time' ? 'selected' : '' }}>Full Time</option>
+                        <option value="part_time" {{ old('job_type', $job->job_type) == 'part_time' ? 'selected' : '' }}>Part Time</option>
+                    </select>
+                    @error('job_type')
+                        <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-group">
                     <label>Job Image</label>
                     @if($job->image)
                         <div class="mb-2">

@@ -146,6 +146,14 @@ class ApiProviderRequestController extends Controller
             }
         }
 
+        // Filter by city_id
+        if ($request->has('city_id')) {
+            $cityId = $request->get('city_id');
+            $query->whereHas('user', function($userQuery) use ($cityId) {
+                $userQuery->where('city_id', $cityId);
+            });
+        }
+
         // Search
         if ($request->has('search')) {
             $search = $request->get('search');

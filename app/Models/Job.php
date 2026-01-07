@@ -15,6 +15,7 @@ class Job extends Model
         'city_id',
         'title_ar',
         'title_en',
+        'job_type',
         'image',
         'description_ar',
         'description_en',

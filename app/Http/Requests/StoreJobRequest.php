@@ -21,6 +21,7 @@ class StoreJobRequest extends FormRequest
             'city_id' => 'nullable|exists:cities,id',
             'title_ar' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
+            'job_type' => 'nullable|in:full_time,part_time',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description_ar' => 'nullable|string',
             'description_en' => 'nullable|string',
