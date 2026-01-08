@@ -25,6 +25,11 @@ class Instructor extends Model
         return $this->belongsToMany(Course::class, 'course_instructor');
     }
 
+    public function podcastEpisodes()
+    {
+        return $this->hasMany(PodcastEpisode::class);
+    }
+
     // Accessor for image URL
     public function getImageUrlAttribute()
     {

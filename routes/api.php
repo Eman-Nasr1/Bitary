@@ -93,6 +93,10 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('course-specializations', [\App\Http\Controllers\Api\CourseSpecializationController::class, 'index']);
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('course-specializations/{id}', [\App\Http\Controllers\Api\CourseSpecializationController::class, 'show']);
 
+//podcasts
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('podcasts', [\App\Http\Controllers\Api\PodcastController::class, 'index']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('podcasts/{id}', [\App\Http\Controllers\Api\PodcastController::class, 'show']);
+
 //locations
 
 Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('cities', [LocationController::class, 'listAllCites']);

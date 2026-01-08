@@ -146,6 +146,27 @@ class MenuServiceProvider extends ServiceProvider
                     'admin_only' => true,
                 ],
                 [
+                    'text' => 'Podcasts',
+                    'url' => 'dashboard/podcasts',
+                    'icon' => 'fas fa-microphone-alt',
+                    'label_color' => 'info',
+                    'admin_only' => true,
+                ],
+                [
+                    'text' => 'Episodes',
+                    'url' => 'dashboard/episodes',
+                    'icon' => 'fas fa-video',
+                    'label_color' => 'info',
+                    'admin_only' => true,
+                ],
+                [
+                    'text' => 'Podcast Categories',
+                    'url' => 'dashboard/podcast-categories',
+                    'icon' => 'fas fa-tags',
+                    'label_color' => 'primary',
+                    'admin_only' => true,
+                ],
+                [
                     'text' => 'Instructors',
                     'url' => 'dashboard/instructors',
                     'icon' => 'fas fa-chalkboard-teacher',

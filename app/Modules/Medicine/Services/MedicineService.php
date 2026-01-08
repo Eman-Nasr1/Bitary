@@ -112,11 +112,28 @@ class MedicineService
 
     public function updateMedicine($id, $request)
     {
+        $medicineData = $this->constructMedicineModel($request);
+        
+        // Extract 'animals' from medicineData as it's not a column, it's a relationship
+        $animals = $medicineData['animals'] ?? null;
+        unset($medicineData['animals']);
 
+        $medicine = $this->medicinesRepository->update($id, $medicineData);
+        
+        // Update animals relationship if provided in request
+        if (isset($request['animals'])) {
+            if (is_array($request['animals']) && !empty($request['animals'])) {
+                $medicine->animals()->sync($request['animals']);
+            } else {
+                // If animals is empty array or not set, remove all relationships
+                $medicine->animals()->sync([]);
+            }
+        } elseif (isset($animals) && is_array($animals)) {
+            // Fallback to animals from constructMedicineModel
+            $medicine->animals()->sync($animals);
+        }
 
-        $medicine = $this->constructMedicineModel($request);
-
-        return $this->medicinesRepository->update($id, $medicine);
+        return $medicine;
     }
 
     public function deleteMedicine($id)

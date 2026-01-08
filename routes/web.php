@@ -62,6 +62,15 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth:admin')->group(
     // Specializations
     Route::resource('specializations', \App\Http\Controllers\SpecializationController::class);
     
+    // Podcasts
+    Route::resource('podcasts', \App\Http\Controllers\PodcastController::class);
+    
+    // Episodes
+    Route::resource('episodes', \App\Http\Controllers\EpisodeController::class);
+    
+    // Podcast Categories
+    Route::resource('podcast-categories', \App\Http\Controllers\PodcastCategoryController::class);
+    
     // Admin Job Module Routes
     Route::prefix('admin')->name('admin.')->group(function () {
         // Job Specializations
