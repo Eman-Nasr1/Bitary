@@ -35,6 +35,14 @@ class PodcastController extends Controller
             });
         }
 
+        // Filter by podcast_type
+        if ($request->has('podcast_type')) {
+            $podcastType = $request->get('podcast_type');
+            if (in_array($podcastType, ['video', 'audio', 'both'])) {
+                $query->where('podcast_type', $podcastType);
+            }
+        }
+
         // Pagination
         $limit = $request->get('limit', 15);
         $offset = $request->get('offset', 0);
