@@ -101,6 +101,16 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('podcast-categories', [\App\Http\Controllers\Api\PodcastCategoryController::class, 'index']);
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('podcast-categories/{id}', [\App\Http\Controllers\Api\PodcastCategoryController::class, 'show']);
 
+//news (public read-only)
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('news', [\App\Http\Controllers\Api\NewsController::class, 'index']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('news/{id}', [\App\Http\Controllers\Api\NewsController::class, 'show']);
+
+//news comments (authenticated users can add comments)
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->post('news/{id}/comment', [\App\Http\Controllers\Api\NewsController::class, 'addComment']);
+
+//market-prices (public read-only)
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('market-prices', [\App\Http\Controllers\Api\MarketPriceController::class, 'index']);
+
 //locations
 
 Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->get('cities', [LocationController::class, 'listAllCites']);

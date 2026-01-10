@@ -180,6 +180,28 @@ class MenuServiceProvider extends ServiceProvider
                     'label_color' => 'primary',
                     'admin_only' => true,
                 ],
+                ['header' => 'NEWS_&_MARKET'],
+                [
+                    'text' => 'News',
+                    'url' => 'dashboard/news',
+                    'icon' => 'fas fa-newspaper',
+                    'label_color' => 'info',
+                    'admin_only' => true,
+                ],
+                [
+                    'text' => 'Market Prices',
+                    'url' => 'dashboard/market-prices',
+                    'icon' => 'fas fa-chart-line',
+                    'label_color' => 'success',
+                    'admin_only' => true,
+                ],
+                [
+                    'text' => 'News Comments',
+                    'url' => 'dashboard/news-comments',
+                    'icon' => 'fas fa-comments',
+                    'label_color' => 'warning',
+                    'admin_only' => true,
+                ],
             ]);
         } elseif ($isProvider) {
             // Provider Menu - Add provider_only flag so RoleMenuFilter can filter

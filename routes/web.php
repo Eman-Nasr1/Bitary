@@ -71,6 +71,19 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth:admin')->group(
     // Podcast Categories
     Route::resource('podcast-categories', \App\Http\Controllers\PodcastCategoryController::class);
     
+    // News Module
+    Route::resource('news', \App\Http\Controllers\NewsController::class);
+    
+    // Market Prices Module
+    Route::resource('market-prices', \App\Http\Controllers\MarketPriceController::class);
+    
+    // News Comments Module (Moderation)
+    Route::get('news-comments', [\App\Http\Controllers\NewsCommentController::class, 'index'])->name('news-comments.index');
+    Route::post('news-comments/{id}/approve', [\App\Http\Controllers\NewsCommentController::class, 'approve'])->name('news-comments.approve');
+    Route::post('news-comments/{id}/reject', [\App\Http\Controllers\NewsCommentController::class, 'reject'])->name('news-comments.reject');
+    Route::post('news-comments/{id}/hide', [\App\Http\Controllers\NewsCommentController::class, 'hide'])->name('news-comments.hide');
+    Route::delete('news-comments/{id}', [\App\Http\Controllers\NewsCommentController::class, 'destroy'])->name('news-comments.destroy');
+    
     // Admin Job Module Routes
     Route::prefix('admin')->name('admin.')->group(function () {
         // Job Specializations
