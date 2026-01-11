@@ -458,6 +458,20 @@ return [
             'admin_only' => true,
         ],
         [
+            'text' => 'Static Pages',
+            'url' => 'dashboard/static-pages',
+           'icon' => 'fas fa-file-alt',
+            'label_color' => 'info',
+            'admin_only' => true,
+        ],
+        [
+            'text' => 'Contact Us',
+            'url' => 'dashboard/contact-us',
+           'icon' => 'fas fa-envelope',
+            'label_color' => 'primary',
+            'admin_only' => true,
+        ],
+        [
             'text' => 'My Jobs',
             'url' => 'dashboard/provider/jobs',
            'icon' => 'fas fa-briefcase',

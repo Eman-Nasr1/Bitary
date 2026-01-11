@@ -31,9 +31,7 @@ Route::get('/', function () {
 
 // Admin Dashboard Routes - Separate group with auth:admin
 Route::prefix('dashboard')->name('dashboard.')->middleware('auth:admin')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard.index');
-    })->name('index');
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
     
     // Admin Resources
     Route::resource('animals', AnimalController::class);
@@ -76,6 +74,17 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth:admin')->group(
     
     // Market Prices Module
     Route::resource('market-prices', \App\Http\Controllers\MarketPriceController::class);
+    
+    // Static Pages Module
+    Route::resource('static-pages', \App\Http\Controllers\StaticPageController::class);
+    
+    // Contact Us Module (Admin Management)
+    Route::get('contact-us', [\App\Http\Controllers\ContactUsController::class, 'index'])->name('contact-us.index');
+    Route::get('contact-us/{id}', [\App\Http\Controllers\ContactUsController::class, 'show'])->name('contact-us.show');
+    Route::post('contact-us/{id}/mark-as-read', [\App\Http\Controllers\ContactUsController::class, 'markAsRead'])->name('contact-us.mark-as-read');
+    Route::post('contact-us/{id}/reply', [\App\Http\Controllers\ContactUsController::class, 'reply'])->name('contact-us.reply');
+    Route::post('contact-us/{id}/archive', [\App\Http\Controllers\ContactUsController::class, 'archive'])->name('contact-us.archive');
+    Route::delete('contact-us/{id}', [\App\Http\Controllers\ContactUsController::class, 'destroy'])->name('contact-us.destroy');
     
     // News Comments Module (Moderation)
     Route::get('news-comments', [\App\Http\Controllers\NewsCommentController::class, 'index'])->name('news-comments.index');

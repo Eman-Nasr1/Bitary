@@ -177,5 +177,62 @@ class UserController extends Controller
         return successJsonResponse(new UserResource($user), __('User.success.user_details'));
     }
 
+    /**
+     * Update authenticated user's profile (email, phone, password)
+     */
+    public function updateProfile(\App\Http\Requests\UpdateUserProfileRequest $request)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthenticated'
+            ], 401);
+        }
+
+        $data = [];
+
+        // Update email if provided
+        if ($request->has('email') && $request->email) {
+            $data['email'] = $request->email;
+        }
+
+        // Update phone if provided
+        if ($request->has('phone') && $request->phone) {
+            $data['phone'] = $request->phone;
+        }
+
+        // Update password if provided
+        if ($request->has('new_password') && $request->new_password) {
+            // Verify old password
+            if (!Hash::check($request->old_password, $user->password)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Old password is incorrect'
+                ], 422);
+            }
+
+            // Update password
+            $data['password'] = Hash::make($request->new_password);
+        }
+
+        // Update user data
+        if (!empty($data)) {
+            $user->update($data);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data provided to update'
+            ], 422);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Profile updated successfully',
+            'data' => new UserResource($user->fresh()),
+        ]);
+    }
+
 
 }

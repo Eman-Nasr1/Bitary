@@ -202,6 +202,20 @@ class MenuServiceProvider extends ServiceProvider
                     'label_color' => 'warning',
                     'admin_only' => true,
                 ],
+                [
+                    'text' => 'Static Pages',
+                    'url' => 'dashboard/static-pages',
+                    'icon' => 'fas fa-file-alt',
+                    'label_color' => 'info',
+                    'admin_only' => true,
+                ],
+                [
+                    'text' => 'Contact Us',
+                    'url' => 'dashboard/contact-us',
+                    'icon' => 'fas fa-envelope',
+                    'label_color' => 'primary',
+                    'admin_only' => true,
+                ],
             ]);
         } elseif ($isProvider) {
             // Provider Menu - Add provider_only flag so RoleMenuFilter can filter

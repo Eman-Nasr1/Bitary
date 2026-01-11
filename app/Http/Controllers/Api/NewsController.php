@@ -146,4 +146,42 @@ class NewsController extends Controller
             ],
         ], 201);
     }
+
+    /**
+     * Get approved comments for a specific news article.
+     */
+    public function getComments(Request $request, $id)
+    {
+        // Verify that the news exists and is published
+        $news = News::published()->findOrFail($id);
+
+        // Get approved comments with pagination
+        $perPage = $request->get('per_page', 15);
+        $comments = NewsComment::where('news_id', $id)
+            ->where('status', 'approved')
+            ->with('user')
+            ->orderBy('created_at', 'DESC')
+            ->paginate($perPage);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $comments->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'news_id' => $comment->news_id,
+                    'user_name' => $comment->user_name ?? ($comment->user ? $comment->user->name : 'Anonymous'),
+                    'user_id' => $comment->user_id,
+                    'comment' => $comment->comment,
+                    'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
+                    'updated_at' => $comment->updated_at->format('Y-m-d H:i:s'),
+                ];
+            }),
+            'meta' => [
+                'current_page' => $comments->currentPage(),
+                'last_page' => $comments->lastPage(),
+                'per_page' => $comments->perPage(),
+                'total' => $comments->total(),
+            ],
+        ]);
+    }
 }

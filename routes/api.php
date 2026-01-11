@@ -60,6 +60,9 @@ Route::middleware('auth:sanctum')->get('/token/check', function () {
     ]);
 });
 
+// User Profile Update
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->put('user/profile', [UserController::class, 'updateProfile']);
+
 
 //animals
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('animals/{id}', [ApiAnimalController::class, 'show']);
@@ -107,9 +110,23 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->
 
 //news comments (authenticated users can add comments)
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->post('news/{id}/comment', [\App\Http\Controllers\Api\NewsController::class, 'addComment']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('news/{id}/comments', [\App\Http\Controllers\Api\NewsController::class, 'getComments']);
 
 //market-prices (public read-only)
 Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('market-prices', [\App\Http\Controllers\Api\MarketPriceController::class, 'index']);
+
+//static-pages (public read-only)
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('static-pages', [\App\Http\Controllers\Api\StaticPageController::class, 'index']);
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->get('static-pages/{identifier}', [\App\Http\Controllers\Api\StaticPageController::class, 'show']);
+
+//contact-us (public - users can send messages)
+Route::middleware([\App\Http\Middleware\SetLocaleLang::class])->post('contact-us', [\App\Http\Controllers\Api\ContactUsController::class, 'store']);
+
+//contact-us (authenticated - users can view their messages)
+Route::middleware(['auth:sanctum', \App\Http\Middleware\SetLocaleLang::class])->prefix('contact-us')->group(function () {
+    Route::get('my-messages', [\App\Http\Controllers\Api\ContactUsController::class, 'myMessages']);
+    Route::get('{id}', [\App\Http\Controllers\Api\ContactUsController::class, 'show']);
+});
 
 //locations
 

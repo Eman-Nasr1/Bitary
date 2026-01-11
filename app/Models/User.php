@@ -75,11 +75,7 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        return $this->morphedByMany(
-            Model::class, // نموذج عام - هنستخدم طريقة ديناميكية لاحقًا
-            'favoritable',
-            'favorites'
-        )->withTimestamps();
+        return $this->hasMany(Favorite::class);
     }
 
     public function favoriteItems()
