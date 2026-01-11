@@ -92,7 +92,14 @@ class ProviderRequest extends Model
                 Log::warning('ProviderRequest: Image file does not exist', ['image' => $image, 'id' => $this->id ?? null]);
                 return null;
             }
-            return Storage::disk('public')->url($image);
+            
+            // Generate absolute URL using the current request's domain
+            // This ensures the URL uses the correct domain (vet-icon.com) instead of localhost
+            // Fallback to config('app.url') if no request is available (e.g., console commands)
+            $baseUrl = request() ? request()->getSchemeAndHttpHost() : config('app.url');
+            $url = $baseUrl . '/storage/' . $image;
+            Log::info('ProviderRequest: Generated image URL', ['image' => $image, 'url' => $url, 'id' => $this->id ?? null]);
+            return $url;
         } catch (\Throwable $e) {
             Log::error('ProviderRequest image URL error: ' . $e->getMessage(), ['image' => $this->attributes['image'] ?? null, 'provider_request_id' => $this->id ?? null, 'trace' => $e->getTraceAsString()]);
             return null;

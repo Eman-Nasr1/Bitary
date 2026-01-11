@@ -66,13 +66,6 @@ class NewsController extends Controller
             $data['cover_image'] = $this->uploadImage($request->file('cover_image'), 'news');
         }
 
-        // Handle tags array
-        if ($request->has('tags') && is_array($request->tags)) {
-            $data['tags'] = array_filter($request->tags);
-        } else {
-            $data['tags'] = null;
-        }
-
         // Set published_at if status is published and not provided
         if ($data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();
@@ -115,15 +108,6 @@ class NewsController extends Controller
             $data['cover_image'] = $this->updateImage($news->cover_image, $request->file('cover_image'), 'news');
         } else {
             $data['cover_image'] = $news->cover_image;
-        }
-
-        // Handle tags array
-        if ($request->has('tags') && is_array($request->tags)) {
-            $data['tags'] = array_filter($request->tags);
-        } elseif (!$request->has('tags')) {
-            $data['tags'] = null;
-        } else {
-            $data['tags'] = $news->tags;
         }
 
         // Set published_at if status is published and not provided

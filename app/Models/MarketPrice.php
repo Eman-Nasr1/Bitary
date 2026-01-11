@@ -21,21 +21,22 @@ class MarketPrice extends Model
     ];
 
     // Auto-calculate trend based on change_percent
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
         static::saving(function ($marketPrice) {
-            if ($marketPrice->change_percent !== null) {
-                if ($marketPrice->change_percent > 0) {
-                    $marketPrice->trend = 'up';
-                } elseif ($marketPrice->change_percent < 0) {
-                    $marketPrice->trend = 'down';
+            // Only update trend if change_percent is being changed
+            if ($marketPrice->isDirty('change_percent')) {
+                if ($marketPrice->change_percent !== null) {
+                    if ($marketPrice->change_percent > 0) {
+                        $marketPrice->trend = 'up';
+                    } elseif ($marketPrice->change_percent < 0) {
+                        $marketPrice->trend = 'down';
+                    } else {
+                        $marketPrice->trend = 'stable';
+                    }
                 } else {
                     $marketPrice->trend = 'stable';
                 }
-            } else {
-                $marketPrice->trend = 'stable';
             }
         });
     }

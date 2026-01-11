@@ -46,6 +46,8 @@ class NewsController extends Controller
                     'title_en' => $item->title_en,
                     'summary_ar' => $item->summary_ar,
                     'summary_en' => $item->summary_en,
+                    'content_ar' => $item->content_ar,
+                    'content_en' => $item->content_en,
                     'cover_image' => $item->cover_image_url,
                     'category' => $item->category,
                     'category_label' => ucfirst(str_replace('_', ' ', $item->category)),

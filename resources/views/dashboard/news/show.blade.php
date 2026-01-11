@@ -92,15 +92,6 @@
                 </div>
             </div>
 
-            @if($news->tags && count($news->tags) > 0)
-                <div class="mt-3">
-                    <strong>Tags:</strong>
-                    @foreach($news->tags as $tag)
-                        <span class="badge badge-secondary mr-1">{{ $tag }}</span>
-                    @endforeach
-                </div>
-            @endif
-
             @if($news->author_name)
                 <div class="mt-3">
                     <strong>Author:</strong> {{ $news->author_name }}

@@ -139,21 +139,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="tags">Tags</label>
-                    <select name="tags[]" id="tags" class="form-control select2" multiple style="width: 100%;" data-tags="true">
-                        @if(old('tags', $news->tags))
-                            @foreach(old('tags', $news->tags ?? []) as $tag)
-                                <option value="{{ $tag }}" selected>{{ $tag }}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                    @error('tags')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                    <small class="form-text text-muted">Type and press Enter to add tags</small>
-                </div>
-
-                <div class="form-group">
                     <label for="author_name">Author Name</label>
                     <input type="text" name="author_name" id="author_name" class="form-control" 
                         value="{{ old('author_name', $news->author_name) }}">
@@ -177,12 +162,10 @@
 
 @push('css')
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @push('js')
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
         // Initialize Summernote WYSIWYG editor
@@ -199,14 +182,6 @@
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']]
             ]
-        });
-
-        // Initialize Select2 for tags with tags enabled
-        $('#tags').select2({
-            tags: true,
-            placeholder: 'Type and press Enter to add tags',
-            allowClear: true,
-            tokenSeparators: [',', ' ']
         });
     });
 </script>

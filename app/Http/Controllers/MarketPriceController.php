@@ -53,18 +53,8 @@ class MarketPriceController extends Controller
     {
         $data = $request->validated();
 
-        // Auto-calculate trend if change_percent is provided
-        if (isset($data['change_percent'])) {
-            if ($data['change_percent'] > 0) {
-                $data['trend'] = 'up';
-            } elseif ($data['change_percent'] < 0) {
-                $data['trend'] = 'down';
-            } else {
-                $data['trend'] = 'stable';
-            }
-        } else {
-            $data['trend'] = 'stable';
-        }
+        // Remove trend from data - let the Model handle it automatically
+        unset($data['trend']);
 
         MarketPrice::create($data);
 
@@ -98,18 +88,14 @@ class MarketPriceController extends Controller
         $price = MarketPrice::findOrFail($id);
         $data = $request->validated();
 
-        // Auto-calculate trend if change_percent is provided
-        if (isset($data['change_percent'])) {
-            if ($data['change_percent'] > 0) {
-                $data['trend'] = 'up';
-            } elseif ($data['change_percent'] < 0) {
-                $data['trend'] = 'down';
-            } else {
-                $data['trend'] = 'stable';
-            }
-        } elseif (!isset($data['trend'])) {
-            // If change_percent is not provided and trend is not set, use existing trend
-            $data['trend'] = $price->trend;
+        // Remove trend from data - let the Model handle it automatically based on change_percent
+        // Only keep trend if change_percent is not being updated
+        if (!isset($data['change_percent']) || $data['change_percent'] === null) {
+            // If change_percent is not provided, keep existing trend
+            unset($data['trend']);
+        } else {
+            // If change_percent is provided, remove trend to let Model calculate it
+            unset($data['trend']);
         }
 
         $price->update($data);
