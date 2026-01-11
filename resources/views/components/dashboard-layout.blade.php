@@ -17,6 +17,39 @@
     </li>
 @endpush
 
+@push('css')
+    <style>
+        /* Sidebar Scrolling */
+        .sidebar {
+            overflow-y: auto !important;
+            height: calc(100vh - 57.6px) !important;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* For Firefox */
+        .sidebar {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
+        }
+    </style>
+@endpush
+
 @push('js')
     <script>
         $(document).ready(function() {
