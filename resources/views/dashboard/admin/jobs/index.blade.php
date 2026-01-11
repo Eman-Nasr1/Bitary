@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Jobs Management')
+@section('title', __('Jobs'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Jobs Management</h1>
+    <h1>{{ __('Jobs') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>All Jobs</h3>
+            <h3>{{ __('Jobs') }}</h3>
             <a href="{{ route('dashboard.admin.jobs.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add Job
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </a>
         </div>
 

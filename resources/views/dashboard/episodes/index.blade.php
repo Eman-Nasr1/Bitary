@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Episodes')
+@section('title', __('Episodes'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Episodes</h1>
+    <h1>{{ __('Episodes') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Episodes</h3>
+            <h3>{{ __('Episodes') }}</h3>
             <a href="{{ route('dashboard.episodes.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add Episode
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </a>
         </div>
 

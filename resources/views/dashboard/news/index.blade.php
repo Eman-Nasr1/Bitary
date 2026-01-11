@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'News')
+@section('title', __('News'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>News</h1>
+    <h1>{{ __('News') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>News</h3>
+            <h3>{{ __('News') }}</h3>
             <a href="{{ route('dashboard.news.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add News
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </a>
         </div>
 

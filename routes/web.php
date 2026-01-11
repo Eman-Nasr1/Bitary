@@ -9,6 +9,9 @@ use App\Modules\Category\CategoryController;
 use App\Modules\AnimalType\AnimalTypeController;
 use App\Modules\City\CityController;
 
+// Language Switcher
+Route::get('/lang/{locale}', [\App\Http\Controllers\LanguageController::class, 'switchLang'])->name('lang.switch');
+
 // Admin Login Routes
 Route::get('/admin/login', [\App\Http\Controllers\Auth\AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [\App\Http\Controllers\Auth\AdminLoginController::class, 'login']);

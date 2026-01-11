@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Cities')
+@section('title', __('Cities'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Cities</h1>
+    <h1>{{ __('Cities') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Cities</h3>
+            <h3>{{ __('Cities') }}</h3>
             <button class="btn btn-primary" data-toggle="modal" data-target="#createcityModal">
-                <i class="fas fa-plus"></i> Add City
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </button>
         </div>
 

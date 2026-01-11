@@ -35,6 +35,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'provider' => \App\Http\Middleware\CheckProviderRole::class,
+            'locale' => \App\Http\Middleware\SetLocaleLang::class,
+        ]);
+        
+        // Add locale middleware to web routes
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocaleLang::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

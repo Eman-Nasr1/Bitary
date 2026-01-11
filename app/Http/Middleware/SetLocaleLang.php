@@ -17,6 +17,11 @@ class SetLocaleLang
     // أولوية للباراميتر في الرابط
     $locale = $request->query('lang');
 
+    // إذا لم يتم إرساله في query، نتحقق من session
+    if (empty($locale) && $request->hasSession()) {
+        $locale = $request->session()->get('locale');
+    }
+
     // وإذا لم يتم إرساله، نستخدم Accept-Language
     if (empty($locale)) {
         $locale = $request->header('Accept-Language');
@@ -31,7 +36,15 @@ class SetLocaleLang
         if (in_array($locale, $supported)) {
             App::setLocale($locale);
             Carbon::setLocale($locale);
+            if ($request->hasSession()) {
+                $request->session()->put('locale', $locale);
+            }
         }
+    } else {
+        // Default locale
+        $defaultLocale = config('app.locale', 'en');
+        App::setLocale($defaultLocale);
+        Carbon::setLocale($defaultLocale);
     }
 
     return $next($request);

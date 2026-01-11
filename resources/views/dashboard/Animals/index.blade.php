@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Animals')
+@section('title', __('Animals'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Animals</h1>
+    <h1>{{ __('Animals') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Animals</h3>
+            <h3>{{ __('Animals') }}</h3>
             <button class="btn btn-primary" data-toggle="modal" data-target="#createanimalModal">
-                <i class="fas fa-plus"></i> Add Animal
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </button>
         </div>
 

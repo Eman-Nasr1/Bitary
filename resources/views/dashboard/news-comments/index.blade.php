@@ -1,15 +1,17 @@
 @extends('adminlte::page')
 
-@section('title', 'News Comments')
+@section('title', __('News Comments'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>News Comments (Moderation)</h1>
+    <h1>{{ __('News Comments') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3>Comments</h3>
+            <h3>{{ __('News Comments') }}</h3>
         </div>
 
         <div class="card-body">

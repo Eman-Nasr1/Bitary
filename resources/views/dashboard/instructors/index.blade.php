@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Instructors')
+@section('title', __('Instructors'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Instructors</h1>
+    <h1>{{ __('Instructors') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Instructors</h3>
+            <h3>{{ __('Instructors') }}</h3>
             <a href="{{ route('dashboard.instructors.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add Instructor
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </a>
         </div>
 

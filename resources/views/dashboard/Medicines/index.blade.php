@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Products')
+@section('title', __('Products'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Products</h1>
+    <h1>{{ __('Products') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Products</h3>
+            <h3>{{ __('Products') }}</h3>
             <button class="btn btn-primary" data-toggle="modal" data-target="#createMedicineModal">
-                <i class="fas fa-plus"></i> Add Product
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </button>
         </div>
 

@@ -1,15 +1,17 @@
 @extends('adminlte::page')
 
-@section('title', 'Job Applications')
+@section('title', __('Job Applications'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Job Applications</h1>
+    <h1>{{ __('Job Applications') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3>Applications for My Jobs</h3>
+            <h3>{{ __('Job Applications') }}</h3>
         </div>
         <div class="card-body">
             <form action="{{ route('dashboard.provider.job-applications.index') }}" method="GET" class="mb-3">

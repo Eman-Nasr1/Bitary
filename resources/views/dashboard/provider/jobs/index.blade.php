@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'My Jobs')
+@section('title', __('My Jobs'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>My Jobs</h1>
+    <h1>{{ __('My Jobs') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>My Jobs</h3>
+            <h3>{{ __('My Jobs') }}</h3>
             <a href="{{ route('dashboard.provider.jobs.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add Job
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </a>
         </div>
 

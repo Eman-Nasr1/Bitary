@@ -1,17 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Static Pages')
+@section('title', __('Static Pages'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Static Pages</h1>
+    <h1>{{ __('Static Pages') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Static Pages</h3>
+            <h3>{{ __('Static Pages') }}</h3>
             <a href="{{ route('dashboard.static-pages.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add Static Page
+                <i class="fas fa-plus"></i> {{ __('Add New') }}
             </a>
         </div>
 

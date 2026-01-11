@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Bitary</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -299,265 +299,20 @@ return [
     |
     */
 
-    'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+    /*
+    |--------------------------------------------------------------------------
+    | Menu Items
+    |--------------------------------------------------------------------------
+    |
+    | NOTE: The menu is generated dynamically by MenuServiceProvider.
+    | This array is kept empty because MenuServiceProvider overrides it
+    | at runtime with translated menu items based on user roles.
+    |
+    | See: app/Providers/MenuServiceProvider.php
+    |
+    */
 
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-        [
-            'text' => 'Animals',
-            'url' => 'dashboard/animals',
-           'icon' => 'fas fa-paw',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Animal Types',
-            'url' => 'dashboard/animal_types',
-           'icon' => 'fas fa-tags',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Categories',
-            'url' => 'dashboard/categories',
-           'icon' => 'fas fa-folder',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-         [
-            'text' => 'Sellers',
-            'url' => 'dashboard/sellers',
-           'icon' => 'fas fa-user-tie',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-         [
-            'text' => 'Products',
-            'url' => 'dashboard/medicines',
-           'icon' => 'fas fa-pills',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Cities',
-            'url' => 'dashboard/cities',
-           'icon' => 'fas fa-city',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Users',
-            'url' => 'dashboard/users',
-           'icon' => 'fas fa-users',
-            'label_color' => 'info',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Courses',
-            'url' => 'dashboard/courses',
-           'icon' => 'fas fa-graduation-cap',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-      
-        [
-            'text' => 'Instructors',
-            'url' => 'dashboard/instructors',
-           'icon' => 'fas fa-chalkboard-teacher',
-            'label_color' => 'info',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Courses Specializations',
-            'url' => 'dashboard/specializations',
-           'icon' => 'fas fa-tags',
-            'label_color' => 'primary',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Provider Requests',
-            'url' => 'dashboard/provider-requests',
-           'icon' => 'fas fa-user-md',
-            'label_color' => 'warning',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Jobs',
-            'url' => 'dashboard/admin/jobs',
-           'icon' => 'fas fa-briefcase',
-            'label_color' => 'info',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Job Applications',
-            'url' => 'dashboard/admin/job-applications',
-           'icon' => 'fas fa-file-alt',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Job Specializations',
-            'url' => 'dashboard/admin/job-specializations',
-           'icon' => 'fas fa-tags',
-            'label_color' => 'primary',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Podcasts',
-            'url' => 'dashboard/podcasts',
-           'icon' => 'fas fa-microphone-alt',
-            'label_color' => 'info',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Podcast Episodes',
-            'url' => 'dashboard/episodes',
-           'icon' => 'fas fa-video',
-            'label_color' => 'info',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Podcast Categories',
-            'url' => 'dashboard/podcast-categories',
-           'icon' => 'fas fa-tags',
-            'label_color' => 'primary',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'News',
-            'url' => 'dashboard/news',
-           'icon' => 'fas fa-newspaper',
-            'label_color' => 'info',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Market Prices',
-            'url' => 'dashboard/market-prices',
-           'icon' => 'fas fa-chart-line',
-            'label_color' => 'success',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'News Comments',
-            'url' => 'dashboard/news-comments',
-           'icon' => 'fas fa-comments',
-            'label_color' => 'warning',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Static Pages',
-            'url' => 'dashboard/static-pages',
-           'icon' => 'fas fa-file-alt',
-            'label_color' => 'info',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'Contact Us',
-            'url' => 'dashboard/contact-us',
-           'icon' => 'fas fa-envelope',
-            'label_color' => 'primary',
-            'admin_only' => true,
-        ],
-        [
-            'text' => 'My Jobs',
-            'url' => 'dashboard/provider/jobs',
-           'icon' => 'fas fa-briefcase',
-            'label_color' => 'info',
-            'provider_only' => true,
-        ],
-        [
-            'text' => 'Job Applications',
-            'url' => 'dashboard/provider/job-applications',
-           'icon' => 'fas fa-file-alt',
-            'label_color' => 'success',
-            'provider_only' => true,
-        ],
-        [
-            'text' => 'My Products',
-            'url' => 'dashboard/provider/medicines',
-           'icon' => 'fas fa-pills',
-            'label_color' => 'success',
-            'provider_only' => true,
-        ],
-        // ['header' => 'account_settings'],
-        // [
-        //     'text' => 'profile',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-user',
-        // ],
-        // [
-        //     'text' => 'change_password',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-lock',
-        // ],
-        // [
-        //     'text' => 'multilevel',
-        //     'icon' => 'fas fa-fw fa-share',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //             'submenu' => [
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                 ],
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                     'submenu' => [
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                     ],
-        //                 ],
-        //             ],
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //     ],
-        // ],
-        // ['header' => 'labels'],
-        // [
-        //     'text' => 'important',
-        //     'icon_color' => 'red',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'warning',
-        //     'icon_color' => 'yellow',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'information',
-        //     'icon_color' => 'cyan',
-        //     'url' => '#',
-        // ],
-    ],
+    'menu' => [],
 
     /*
     |--------------------------------------------------------------------------

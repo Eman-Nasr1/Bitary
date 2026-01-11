@@ -1,9 +1,28 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', __('Dashboard'))
+
+@push('topnav_right')
+    <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-language"></i> {{ __('Language') }}
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <a href="{{ url('/lang/ar') }}" class="dropdown-item {{ app()->getLocale() == 'ar' ? 'active' : '' }}">
+                <i class="fas fa-circle mr-2 {{ app()->getLocale() == 'ar' ? 'text-success' : 'text-secondary' }}"></i>
+                {{ __('Arabic') }}
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="{{ url('/lang/en') }}" class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}">
+                <i class="fas fa-circle mr-2 {{ app()->getLocale() == 'en' ? 'text-success' : 'text-secondary' }}"></i>
+                {{ __('English') }}
+            </a>
+        </div>
+    </li>
+@endpush
 
 @section('content_header')
-    <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+    <h1><i class="fas fa-tachometer-alt"></i> {{ __('Dashboard') }}</h1>
 @stop
 
 @section('content')
@@ -13,13 +32,13 @@
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>{{ $totalUsers }}</h3>
-                    <p>Total Users</p>
+                    <p>{{ __('Total Users') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-users"></i>
                 </div>
                 <a href="{{ route('dashboard.users.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -28,13 +47,13 @@
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{ $providers }}</h3>
-                    <p>Providers</p>
+                    <p>{{ __('Providers') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-user-tie"></i>
                 </div>
                 <a href="{{ route('dashboard.users.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -43,13 +62,13 @@
             <div class="small-box bg-gradient-primary">
                 <div class="inner">
                     <h3>{{ $doctors }}</h3>
-                    <p>Doctors</p>
+                    <p>{{ __('Doctors') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-user-md"></i>
                 </div>
                 <a href="{{ route('dashboard.provider-requests.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -58,13 +77,13 @@
             <div class="small-box bg-gradient-success">
                 <div class="inner">
                     <h3>{{ $clinics }}</h3>
-                    <p>Clinics</p>
+                    <p>{{ __('Clinics') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-hospital"></i>
                 </div>
                 <a href="{{ route('dashboard.provider-requests.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -76,13 +95,13 @@
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>{{ $totalMedicines }}</h3>
-                    <p>Products</p>
+                    <p>{{ __('Products') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-pills"></i>
                 </div>
                 <a href="{{ route('dashboard.medicines.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -91,13 +110,13 @@
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{ $totalCourses }}</h3>
-                    <p>Courses</p>
+                    <p>{{ __('Courses') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
                 <a href="{{ route('dashboard.courses.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -106,13 +125,13 @@
             <div class="small-box bg-danger">
                 <div class="inner">
                     <h3>{{ $totalJobs }}</h3>
-                    <p>Jobs</p>
+                    <p>{{ __('Jobs') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-briefcase"></i>
                 </div>
                 <a href="{{ route('dashboard.admin.jobs.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -121,13 +140,13 @@
             <div class="small-box bg-primary">
                 <div class="inner">
                     <h3>{{ $publishedNews }}</h3>
-                    <p>Published News</p>
+                    <p>{{ __('Published News') }}</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-newspaper"></i>
                 </div>
                 <a href="{{ route('dashboard.news.index') }}" class="small-box-footer">
-                    More info <i class="fas fa-arrow-circle-right"></i>
+                    {{ __('More info') }} <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
         </div>
@@ -140,7 +159,7 @@
                 <div class="card-header">
                     <h3 class="card-title">
                         <i class="fas fa-chart-line mr-1"></i>
-                        Recent Activity (Last 7 Days)
+                        {{ __('Recent Activity (Last 7 Days)') }}
                     </h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -154,7 +173,7 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">New Users</span>
+                                    <span class="info-box-text">{{ __('New Users') }}</span>
                                     <span class="info-box-number">{{ $recentUsers }}</span>
                                 </div>
                             </div>
@@ -163,7 +182,7 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-user-plus"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">New Provider Requests</span>
+                                    <span class="info-box-text">{{ __('New Provider Requests') }}</span>
                                     <span class="info-box-number">{{ $recentProviderRequests }}</span>
                                 </div>
                             </div>
@@ -172,7 +191,7 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-newspaper"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">New News</span>
+                                    <span class="info-box-text">{{ __('New News') }}</span>
                                     <span class="info-box-number">{{ $recentNews }}</span>
                                 </div>
                             </div>
@@ -249,6 +268,37 @@
 
 @section('js')
     <script> 
-        console.log("Dashboard loaded successfully!"); 
+        console.log("Dashboard loaded successfully!");
+        
+        // Add Language Switcher to topnav_right
+        $(document).ready(function() {
+            var languageSwitcher = `
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-language"></i> {{ __('Language') }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <a href="{{ url('/lang/ar') }}" class="dropdown-item {{ app()->getLocale() == 'ar' ? 'active' : '' }}">
+                            <i class="fas fa-circle mr-2 {{ app()->getLocale() == 'ar' ? 'text-success' : 'text-secondary' }}"></i>
+                            {{ __('Arabic') }}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ url('/lang/en') }}" class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}">
+                            <i class="fas fa-circle mr-2 {{ app()->getLocale() == 'en' ? 'text-success' : 'text-secondary' }}"></i>
+                            {{ __('English') }}
+                        </a>
+                    </div>
+                </li>
+            `;
+            
+            // Find the navbar-nav in topnav_right and append language switcher
+            var topnavRight = $('.navbar-nav.topnav-right, .navbar-nav:has(.fa-expand)').first();
+            if (topnavRight.length > 0) {
+                topnavRight.append(languageSwitcher);
+            } else {
+                // Fallback: find any navbar-nav and append
+                $('.navbar-nav').last().append(languageSwitcher);
+            }
+        });
     </script>
 @stop

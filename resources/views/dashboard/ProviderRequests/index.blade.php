@@ -1,15 +1,17 @@
 @extends('adminlte::page')
 
-@section('title', 'Provider Requests')
+@section('title', __('Provider Requests'))
+
+@include('components.dashboard-layout')
 
 @section('content_header')
-    <h1>Provider Requests</h1>
+    <h1>{{ __('Provider Requests') }}</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Provider Requests</h3>
+            <h3>{{ __('Provider Requests') }}</h3>
         </div>
 
         <div class="card-body">

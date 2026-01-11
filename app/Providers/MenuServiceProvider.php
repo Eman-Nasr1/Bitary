@@ -20,10 +20,15 @@ class MenuServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Use View Composer to modify menu at render time (after authentication)
-        // This ensures filters run on the menu items
-        view()->composer('adminlte::page', function ($view) {
-            // Modify menu config at render time when user is authenticated
+        // Update menu config before views are rendered
+        if (app()->runningInConsole()) {
+            return;
+        }
+
+        // Use View Creator to modify menu BEFORE view is rendered (before authentication check in view)
+        // This ensures menu is available when AdminLTE builds it
+        view()->creator('adminlte::page', function ($view) {
+            // Modify menu config before view is rendered
             $roleBasedMenu = $this->getMenuItems();
             config(['adminlte.menu' => $roleBasedMenu]);
         });
@@ -42,175 +47,197 @@ class MenuServiceProvider extends ServiceProvider
             // Navbar items
             [
                 'type' => 'navbar-search',
-                'text' => 'search',
+                'text' => __('Search'),
                 'topnav_right' => true,
             ],
             [
                 'type' => 'fullscreen-widget',
                 'topnav_right' => true,
             ],
+            [
+                'type' => 'navbar-dropdown',
+                'text' => __('Language'),
+                'icon' => 'fas fa-language',
+                'topnav_right' => true,
+                'submenu' => [
+                    [
+                        'text' => __('Arabic'),
+                        'icon' => 'fas fa-circle',
+                        'icon_color' => app()->getLocale() == 'ar' ? 'success' : 'secondary',
+                        'url' => url('/lang/ar'),
+                        'active' => app()->getLocale() == 'ar',
+                    ],
+                    [
+                        'text' => __('English'),
+                        'icon' => 'fas fa-circle',
+                        'icon_color' => app()->getLocale() == 'en' ? 'success' : 'secondary',
+                        'url' => url('/lang/en'),
+                        'active' => app()->getLocale() == 'en',
+                    ],
+                ],
+            ],
             // Sidebar search
             [
                 'type' => 'sidebar-menu-search',
-                'text' => 'search',
+                'text' => __('Search'),
             ],
         ];
 
         if ($isAdmin) {
             // Admin Menu - Add admin_only flag so RoleMenuFilter can filter
             $menu = array_merge($menu, [
-                ['header' => 'ADMIN_MENU'],
+                ['header' => __('ADMIN_MENU')],
                 [
-                    'text' => 'Provider Requests',
+                    'text' => __('Provider Requests'),
                     'url' => 'dashboard/provider-requests',
                     'icon' => 'fas fa-user-md',
                     'label_color' => 'warning',
                     'admin_only' => true, // Flag for RoleMenuFilter
                 ],
                 [
-                    'text' => 'Jobs',
+                    'text' => __('Jobs'),
                     'url' => 'dashboard/admin/jobs',
                     'icon' => 'fas fa-briefcase',
                     'label_color' => 'info',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Job Applications',
+                    'text' => __('Job Applications'),
                     'url' => 'dashboard/admin/job-applications',
                     'icon' => 'fas fa-file-alt',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Job Specializations',
+                    'text' => __('Job Specializations'),
                     'url' => 'dashboard/admin/job-specializations',
                     'icon' => 'fas fa-tags',
                     'label_color' => 'primary',
                     'admin_only' => true,
                 ],
-                ['header' => 'CONTENT_MANAGEMENT'],
+                ['header' => __('CONTENT_MANAGEMENT')],
                 [
-                    'text' => 'Animals',
+                    'text' => __('Animals'),
                     'url' => 'dashboard/animals',
                     'icon' => 'fas fa-paw',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Animal Types',
+                    'text' => __('Animal Types'),
                     'url' => 'dashboard/animal_types',
                     'icon' => 'fas fa-tags',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Categories',
+                    'text' => __('Categories'),
                     'url' => 'dashboard/categories',
                     'icon' => 'fas fa-folder',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Sellers',
+                    'text' => __('Sellers'),
                     'url' => 'dashboard/sellers',
                     'icon' => 'fas fa-user-tie',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Products',
+                    'text' => __('Products'),
                     'url' => 'dashboard/medicines',
                     'icon' => 'fas fa-pills',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Cities',
+                    'text' => __('Cities'),
                     'url' => 'dashboard/cities',
                     'icon' => 'fas fa-city',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Users',
+                    'text' => __('Users'),
                     'url' => 'dashboard/users',
                     'icon' => 'fas fa-users',
                     'label_color' => 'info',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Courses',
+                    'text' => __('Courses'),
                     'url' => 'dashboard/courses',
                     'icon' => 'fas fa-graduation-cap',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Podcasts',
+                    'text' => __('Podcasts'),
                     'url' => 'dashboard/podcasts',
                     'icon' => 'fas fa-microphone-alt',
                     'label_color' => 'info',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Episodes',
+                    'text' => __('Episodes'),
                     'url' => 'dashboard/episodes',
                     'icon' => 'fas fa-video',
                     'label_color' => 'info',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Podcast Categories',
+                    'text' => __('Podcast Categories'),
                     'url' => 'dashboard/podcast-categories',
                     'icon' => 'fas fa-tags',
                     'label_color' => 'primary',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Instructors',
+                    'text' => __('Instructors'),
                     'url' => 'dashboard/instructors',
                     'icon' => 'fas fa-chalkboard-teacher',
                     'label_color' => 'info',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Specializations',
+                    'text' => __('Specializations'),
                     'url' => 'dashboard/specializations',
                     'icon' => 'fas fa-tags',
                     'label_color' => 'primary',
                     'admin_only' => true,
                 ],
-                ['header' => 'NEWS_&_MARKET'],
+                ['header' => __('NEWS_&_MARKET')],
                 [
-                    'text' => 'News',
+                    'text' => __('News'),
                     'url' => 'dashboard/news',
                     'icon' => 'fas fa-newspaper',
                     'label_color' => 'info',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Market Prices',
+                    'text' => __('Market Prices'),
                     'url' => 'dashboard/market-prices',
                     'icon' => 'fas fa-chart-line',
                     'label_color' => 'success',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'News Comments',
+                    'text' => __('News Comments'),
                     'url' => 'dashboard/news-comments',
                     'icon' => 'fas fa-comments',
                     'label_color' => 'warning',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Static Pages',
+                    'text' => __('Static Pages'),
                     'url' => 'dashboard/static-pages',
                     'icon' => 'fas fa-file-alt',
                     'label_color' => 'info',
                     'admin_only' => true,
                 ],
                 [
-                    'text' => 'Contact Us',
+                    'text' => __('Contact Us'),
                     'url' => 'dashboard/contact-us',
                     'icon' => 'fas fa-envelope',
                     'label_color' => 'primary',
@@ -220,23 +247,23 @@ class MenuServiceProvider extends ServiceProvider
         } elseif ($isProvider) {
             // Provider Menu - Add provider_only flag so RoleMenuFilter can filter
             $menu = array_merge($menu, [
-                ['header' => 'PROVIDER_MENU'],
+                ['header' => __('PROVIDER_MENU')],
                 [
-                    'text' => 'My Jobs',
+                    'text' => __('My Jobs'),
                     'url' => 'dashboard/provider/jobs',
                     'icon' => 'fas fa-briefcase',
                     'label_color' => 'info',
                     'provider_only' => true, // Flag for RoleMenuFilter
                 ],
                 [
-                    'text' => 'Job Applications',
+                    'text' => __('Job Applications'),
                     'url' => 'dashboard/provider/job-applications',
                     'icon' => 'fas fa-file-alt',
                     'label_color' => 'success',
                     'provider_only' => true,
                 ],
                 [
-                    'text' => 'My Products',
+                    'text' => __('My Products'),
                     'url' => 'dashboard/provider/medicines',
                     'icon' => 'fas fa-pills',
                     'label_color' => 'success',
