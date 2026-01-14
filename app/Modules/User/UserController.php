@@ -62,17 +62,15 @@ class UserController extends Controller
     }
     public function resetPassword(Request $request)
     {
-        $otp = request()->header('otp');
-
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|string|confirmed|min:8',
         ]);
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || $user->otp_code !== $otp|| now()->gt($user->otp_expires_at)) {
-            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
         }
 
         $user->password = Hash::make($request->password);
