@@ -51,7 +51,9 @@ public function findAllBy(array $queryCriteria = [], array $with = []): array
         $sort = data_get($queryCriteria, 'sort', 'DESC');
         $filters = data_get($queryCriteria, 'filters', []);
         if (!empty($filters)) {
-            $query = $query->whereLike($filters);
+            foreach ($filters as $column => $value) {
+                $query = $query->where($column, 'LIKE', '%' . $value . '%');
+            }
         }
         return [
             'count' => $query->count(),
