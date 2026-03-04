@@ -22,8 +22,10 @@
             <form action="{{ route('dashboard.cities.index') }}" method="GET" class="mb-3">
                 <div class="row">
                     <div class="col-md-4">
-                        <input type="text" name="filters[name]" class="form-control" 
-                            placeholder="Search by Name..." value="{{ request('filters.name') }}">
+                        <input type="text" name="filters[name_en]" class="form-control mb-2" 
+                            placeholder="Search by English Name..." value="{{ request('filters.name_en') }}">
+                        <input type="text" name="filters[name_ar]" class="form-control" 
+                            placeholder="بحث بالاسم العربي..." value="{{ request('filters.name_ar') }}">
                         <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
                         <input type="hidden" name="offset" value="0">
                     </div>
@@ -45,8 +47,11 @@
                                     <option value="100" {{ request('limit', 10) == 100 ? 'selected' : '' }}>100</option>
                                 </select>
                                 <input type="hidden" name="offset" value="0">
-                                @if(request('filters.name'))
-                                    <input type="hidden" name="filters[name]" value="{{ request('filters.name') }}">
+                                @if(request('filters.name_en'))
+                                    <input type="hidden" name="filters[name_en]" value="{{ request('filters.name_en') }}">
+                                @endif
+                                @if(request('filters.name_ar'))
+                                    <input type="hidden" name="filters[name_ar]" value="{{ request('filters.name_ar') }}">
                                 @endif
                             </form>
                         </div>
@@ -60,7 +65,8 @@
                     <thead class="thead-dark">
                         <tr>
                             <th style="width: 80px;">ID</th>
-                            <th>City Name</th>
+                            <th>City Name (EN)</th>
+                            <th>City Name (AR)</th>
                             <th style="width: 200px;">Actions</th>
                         </tr>
                     </thead>
@@ -71,7 +77,10 @@
                                     <span class="badge badge-secondary">{{ $city->id }}</span>
                                 </td>
                                 <td>
-                                    <strong>{{ $city->name }}</strong>
+                                    <strong>{{ $city->name_en ?? $city->name }}</strong>
+                                </td>
+                                <td>
+                                    <strong>{{ $city->name_ar ?? $city->name }}</strong>
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
@@ -98,7 +107,7 @@
 
                         @empty
                             <tr>
-                                <td colspan="3" class="text-center py-4">
+                                <td colspan="4" class="text-center py-4">
                                     <i class="fas fa-inbox fa-3x text-muted mb-2"></i>
                                     <p class="text-muted">No cities found.</p>
                                 </td>

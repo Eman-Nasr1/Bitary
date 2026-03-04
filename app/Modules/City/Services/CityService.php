@@ -35,7 +35,10 @@ class CityService
     public function constructCityModel($request)
     {
         $cityModel = [
-            'name' => $request['name'],
+            'name_ar' => $request['name_ar'],
+            'name_en' => $request['name_en'],
+            // Keep legacy single name populated for backward compatibility.
+            'name' => $request['name_en'],
         ];
         return $cityModel;
     }

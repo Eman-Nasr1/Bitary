@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Builder;
 class City extends Model
 {
     protected $fillable = [
-        'name'
+        'name',
+        'name_ar',
+        'name_en',
     ];
 
     public function areas() {

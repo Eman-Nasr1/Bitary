@@ -54,6 +54,10 @@ class JobApplication extends Model
         if (!$this->cv_file) {
             return null;
         }
-        return Storage::disk('public')->url($this->cv_file);
+
+        $cvPath = ltrim($this->cv_file, '/');
+        $baseUrl = request() ? request()->getSchemeAndHttpHost() : rtrim(config('app.url'), '/');
+
+        return $baseUrl . '/storage/' . $cvPath;
     }
 }

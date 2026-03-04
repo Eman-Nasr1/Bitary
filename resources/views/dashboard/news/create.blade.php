@@ -95,10 +95,11 @@
                             <label for="category">Category <span class="text-danger">*</span></label>
                             <select name="category" id="category" class="form-control" required>
                                 <option value="">Select Category</option>
-                                <option value="animal_health" {{ old('category') == 'animal_health' ? 'selected' : '' }}>Animal Health</option>
-                                <option value="veterinary_medicine" {{ old('category') == 'veterinary_medicine' ? 'selected' : '' }}>Veterinary Medicine</option>
-                                <option value="market_trends" {{ old('category') == 'market_trends' ? 'selected' : '' }}>Market Trends</option>
-                                <option value="other" {{ old('category') == 'other' ? 'selected' : '' }}>Other</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->slug }}" {{ old('category') == $category->slug ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
                             </select>
                             @error('category')
                                 <span class="text-danger">{{ $message }}</span>

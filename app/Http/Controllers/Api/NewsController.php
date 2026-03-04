@@ -14,7 +14,7 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $query = News::published()->with('approvedComments');
+        $query = News::published()->with(['approvedComments', 'categoryModel']);
 
         // Filter by category
         if ($request->has('category') && $request->category != '') {
@@ -50,7 +50,7 @@ class NewsController extends Controller
                     'content_en' => $item->content_en,
                     'cover_image' => $item->cover_image_url,
                     'category' => $item->category,
-                    'category_label' => ucfirst(str_replace('_', ' ', $item->category)),
+                    'category_label' => $item->category_label,
                     'tags' => $item->tags ?? [],
                     'published_at' => $item->published_at ? $item->published_at->format('Y-m-d H:i:s') : null,
                     'author_name' => $item->author_name,
@@ -75,7 +75,7 @@ class NewsController extends Controller
         $news = News::published()
             ->with(['approvedComments' => function($query) {
                 $query->orderBy('created_at', 'DESC');
-            }, 'approvedComments.user'])
+            }, 'approvedComments.user', 'categoryModel'])
             ->findOrFail($id);
 
         return response()->json([
@@ -90,7 +90,7 @@ class NewsController extends Controller
                 'content_en' => $news->content_en,
                 'cover_image' => $news->cover_image_url,
                 'category' => $news->category,
-                'category_label' => ucfirst(str_replace('_', ' ', $news->category)),
+                'category_label' => $news->category_label,
                 'tags' => $news->tags ?? [],
                 'published_at' => $news->published_at ? $news->published_at->format('Y-m-d H:i:s') : null,
                 'author_name' => $news->author_name,

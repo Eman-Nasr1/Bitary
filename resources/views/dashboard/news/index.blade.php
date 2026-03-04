@@ -36,10 +36,11 @@
                     <div class="col-md-3">
                         <select name="category" class="form-control">
                             <option value="">All Categories</option>
-                            <option value="animal_health" {{ request('category') == 'animal_health' ? 'selected' : '' }}>Animal Health</option>
-                            <option value="veterinary_medicine" {{ request('category') == 'veterinary_medicine' ? 'selected' : '' }}>Veterinary Medicine</option>
-                            <option value="market_trends" {{ request('category') == 'market_trends' ? 'selected' : '' }}>Market Trends</option>
-                            <option value="other" {{ request('category') == 'other' ? 'selected' : '' }}>Other</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -74,7 +75,7 @@
                                 <td>{{ $item->title_ar }}</td>
                                 <td>
                                     <span class="badge badge-info">
-                                        {{ ucfirst(str_replace('_', ' ', $item->category)) }}
+                                        {{ $item->category_label }}
                                     </span>
                                 </td>
                                 <td>

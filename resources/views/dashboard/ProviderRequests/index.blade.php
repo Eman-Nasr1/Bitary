@@ -35,34 +35,23 @@
                             <option value="company" {{ request('filters.provider_type') == 'company' ? 'selected' : '' }}>Company</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        <input type="hidden" name="limit" value="{{ request('limit', 10) }}">
+                    <div class="col-md-6 d-flex align-items-center">
                         <input type="hidden" name="offset" value="0">
-                    <div class="col-md-8">
                         <button type="submit" class="btn btn-secondary">
                             <i class="fas fa-search"></i> Filter
                         </button>
-                        <a href="{{ route('dashboard.provider-requests.index') }}" class="btn btn-light">
+                        <a href="{{ route('dashboard.provider-requests.index') }}" class="btn btn-light ml-2">
                             <i class="fas fa-times"></i> Clear
                         </a>
                         <div class="d-inline-block ml-3">
-                            <label for="perPage" class="mr-2">Per Page:</label>
-                            <form action="{{ route('dashboard.provider-requests.index') }}" method="GET" class="d-inline">
-                                <select name="limit" id="perPage" class="form-control form-control-sm d-inline" 
-                                    style="width: auto;" onchange="this.form.submit()">
-                                    <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
-                                    <option value="25" {{ request('limit', 10) == 25 ? 'selected' : '' }}>25</option>
-                                    <option value="50" {{ request('limit', 10) == 50 ? 'selected' : '' }}>50</option>
-                                    <option value="100" {{ request('limit', 10) == 100 ? 'selected' : '' }}>100</option>
-                                </select>
-                                <input type="hidden" name="offset" value="0">
-                                @if(request('filters.status'))
-                                    <input type="hidden" name="filters[status]" value="{{ request('filters.status') }}">
-                                @endif
-                                @if(request('filters.provider_type'))
-                                    <input type="hidden" name="filters[provider_type]" value="{{ request('filters.provider_type') }}">
-                                @endif
-                            </form>
+                            <label for="perPage" class="mr-2 mb-0">Per Page:</label>
+                            <select name="limit" id="perPage" class="form-control form-control-sm d-inline"
+                                style="width: auto;" onchange="this.form.submit()">
+                                <option value="10" {{ request('limit', 10) == 10 ? 'selected' : '' }}>10</option>
+                                <option value="25" {{ request('limit', 10) == 25 ? 'selected' : '' }}>25</option>
+                                <option value="50" {{ request('limit', 10) == 50 ? 'selected' : '' }}>50</option>
+                                <option value="100" {{ request('limit', 10) == 100 ? 'selected' : '' }}>100</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -138,20 +127,26 @@
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         @if($request->status == 'pending')
-                                            <button class="btn btn-sm btn-success" data-toggle="modal"
-                                                data-target="#approveModal{{ $request->id }}" title="Approve">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger" data-toggle="modal"
-                                                data-target="#rejectModal{{ $request->id }}" title="Reject">
-                                                <i class="fas fa-times"></i>
-                                            </button>
+                                            <form action="{{ route('dashboard.provider-requests.approve', $request->id) }}"
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('Approve this provider request?');">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-success" title="Approve">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('dashboard.provider-requests.reject', $request->id) }}"
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('Reject this provider request?');">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger" title="Reject">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </form>
                                         @endif
                                     </div>
                                 </td>
                             </tr>
-                            @include('dashboard.ProviderRequests.modals.approve', ['request' => $request])
-                            @include('dashboard.ProviderRequests.modals.reject', ['request' => $request])
                         @empty
                             <tr>
                                 <td colspan="9" class="text-center py-4">

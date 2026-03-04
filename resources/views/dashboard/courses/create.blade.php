@@ -171,9 +171,7 @@
                 <div class="card mb-3">
                     <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                         <h5>Instructors</h5>
-                        <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#addInstructorModal">
-                            <i class="fas fa-plus"></i> Add Instructor
-                        </button>
+                      
                     </div>
                     <div class="card-body">
                         <div class="form-group">

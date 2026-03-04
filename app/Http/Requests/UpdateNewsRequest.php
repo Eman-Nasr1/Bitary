@@ -29,7 +29,7 @@ class UpdateNewsRequest extends FormRequest
             'content_ar' => 'required|string',
             'content_en' => 'nullable|string',
             'cover_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category' => 'required|in:animal_health,veterinary_medicine,market_trends,other',
+            'category' => 'required|exists:news_categories,slug',
             'status' => 'required|in:draft,published,archived',
             'published_at' => 'nullable|date',
             'author_name' => 'nullable|string|max:255',

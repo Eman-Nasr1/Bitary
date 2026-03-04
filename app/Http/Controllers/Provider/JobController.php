@@ -56,7 +56,7 @@ class JobController extends Controller
     public function create()
     {
         $specializations = JobSpecialization::active()->get();
-        $cities = City::orderBy('name')->get();
+        $cities = City::orderBy('name_en')->orderBy('name_ar')->get();
         return view('dashboard.provider.jobs.create', compact('specializations', 'cities'));
     }
 
@@ -102,7 +102,7 @@ class JobController extends Controller
         }
         
         $specializations = JobSpecialization::active()->get();
-        $cities = City::orderBy('name')->get();
+        $cities = City::orderBy('name_en')->orderBy('name_ar')->get();
         return view('dashboard.provider.jobs.edit', compact('job', 'specializations', 'cities'));
     }
 

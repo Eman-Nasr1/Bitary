@@ -9,7 +9,8 @@ class ListAllCitiesRequest extends BaseRequest
     public function getFilters(): array
     {
         return [
-            'name' =>  'name',
+            'name_ar' =>  'name_ar',
+            'name_en' =>  'name_en',
         ];
     }
 

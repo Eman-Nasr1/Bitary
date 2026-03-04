@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\NewsCategory;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Traits\HandlesImages;
@@ -18,7 +19,7 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $query = News::query();
+        $query = News::with('categoryModel');
 
         // Search by title
         if ($request->has('search')) {
@@ -40,9 +41,11 @@ class NewsController extends Controller
         }
 
         $news = $query->orderBy('id', 'DESC')->paginate(10);
+        $categories = NewsCategory::where('is_active', true)->orderBy('name')->get();
 
         return view('dashboard.news.index', [
             'news' => $news,
+            'categories' => $categories,
         ]);
     }
 
@@ -51,7 +54,8 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('dashboard.news.create');
+        $categories = NewsCategory::where('is_active', true)->orderBy('name')->get();
+        return view('dashboard.news.create', compact('categories'));
     }
 
     /**
@@ -82,7 +86,7 @@ class NewsController extends Controller
      */
     public function show(string $id)
     {
-        $news = News::with('approvedComments.user')->findOrFail($id);
+        $news = News::with(['approvedComments.user', 'categoryModel'])->findOrFail($id);
         return view('dashboard.news.show', compact('news'));
     }
 
@@ -92,7 +96,8 @@ class NewsController extends Controller
     public function edit(string $id)
     {
         $news = News::findOrFail($id);
-        return view('dashboard.news.edit', compact('news'));
+        $categories = NewsCategory::where('is_active', true)->orderBy('name')->get();
+        return view('dashboard.news.edit', compact('news', 'categories'));
     }
 
     /**

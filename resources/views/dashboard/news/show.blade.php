@@ -73,7 +73,7 @@
                 <div class="col-md-3">
                     <strong>Category:</strong>
                     <span class="badge badge-info">
-                        {{ ucfirst(str_replace('_', ' ', $news->category)) }}
+                        {{ $news->category_label }}
                     </span>
                 </div>
                 <div class="col-md-3">

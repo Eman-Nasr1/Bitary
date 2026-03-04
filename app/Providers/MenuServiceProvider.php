@@ -216,6 +216,13 @@ class MenuServiceProvider extends ServiceProvider
                     'admin_only' => true,
                 ],
                 [
+                    'text' => __('News Categories'),
+                    'url' => 'dashboard/news-categories',
+                    'icon' => 'fas fa-tags',
+                    'label_color' => 'primary',
+                    'admin_only' => true,
+                ],
+                [
                     'text' => __('Market Prices'),
                     'url' => 'dashboard/market-prices',
                     'icon' => 'fas fa-chart-line',

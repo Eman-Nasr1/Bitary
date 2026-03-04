@@ -55,7 +55,7 @@
                                 <option value="">Select City</option>
                                 @foreach($cities as $city)
                                     <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
-                                        {{ $city->name }}
+                                        {{ $city->name_en ?? $city->name }} @if($city->name_ar) ({{ $city->name_ar }}) @endif
                                     </option>
                                 @endforeach
                             </select>
@@ -95,6 +95,8 @@
                         <option value="">Select Job Type</option>
                         <option value="full_time" {{ old('job_type') == 'full_time' ? 'selected' : '' }}>Full Time</option>
                         <option value="part_time" {{ old('job_type') == 'part_time' ? 'selected' : '' }}>Part Time</option>
+                        <option value="remote" {{ old('job_type') == 'remote' ? 'selected' : '' }}>Remote (عن بعد)</option>
+                        <option value="online" {{ old('job_type') == 'online' ? 'selected' : '' }}>Online</option>
                     </select>
                     @error('job_type')
                         <span class="invalid-feedback">{{ $message }}</span>

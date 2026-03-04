@@ -75,7 +75,7 @@
                                 @foreach($cities as $city)
                                     <option value="{{ $city->id }}" 
                                         {{ old('city_id', $user->city_id) == $city->id ? 'selected' : '' }}>
-                                        {{ $city->name }}
+                                        {{ $city->name_en ?? $city->name }} @if($city->name_ar) ({{ $city->name_ar }}) @endif
                                     </option>
                                 @endforeach
                             </select>

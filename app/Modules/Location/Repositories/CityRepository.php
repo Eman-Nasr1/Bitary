@@ -13,7 +13,10 @@ class CityRepository extends BaseRepository
     }
 
      public function getCity($name){
-        $city = $this->model::where('name',$name)->get();
+        $city = $this->model::where('name', $name)
+            ->orWhere('name_ar', $name)
+            ->orWhere('name_en', $name)
+            ->get();
        return $city;
      }
 }

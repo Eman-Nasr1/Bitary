@@ -74,6 +74,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware('auth:admin')->group(
     
     // News Module
     Route::resource('news', \App\Http\Controllers\NewsController::class);
+    Route::resource('news-categories', \App\Http\Controllers\NewsCategoryController::class)->except(['show']);
     
     // Market Prices Module
     Route::resource('market-prices', \App\Http\Controllers\MarketPriceController::class);

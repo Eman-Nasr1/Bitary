@@ -34,7 +34,7 @@ class JobController extends Controller
         // Filter by job_type
         if ($request->has('job_type')) {
             $jobType = $request->get('job_type');
-            if (in_array($jobType, ['full_time', 'part_time'])) {
+            if (in_array($jobType, ['full_time', 'part_time', 'remote', 'online'])) {
                 $query->where('job_type', $jobType);
             }
         }
@@ -94,7 +94,9 @@ class JobController extends Controller
                     ] : null,
                     'city' => $job->city ? [
                         'id' => $job->city->id,
-                        'name' => $job->city->name,
+                        'name' => $job->city->name_en ?? $job->city->name,
+                        'name_ar' => $job->city->name_ar ?? $job->city->name,
+                        'name_en' => $job->city->name_en ?? $job->city->name,
                     ] : null,
                     'created_at' => $job->created_at->toDateTimeString(),
                     'updated_at' => $job->updated_at->toDateTimeString(),
@@ -158,7 +160,9 @@ class JobController extends Controller
             ] : null,
             'city' => $job->city ? [
                 'id' => $job->city->id,
-                'name' => $job->city->name,
+                'name' => $job->city->name_en ?? $job->city->name,
+                'name_ar' => $job->city->name_ar ?? $job->city->name,
+                'name_en' => $job->city->name_en ?? $job->city->name,
             ] : null,
             'created_at' => $job->created_at->toDateTimeString(),
             'updated_at' => $job->updated_at->toDateTimeString(),

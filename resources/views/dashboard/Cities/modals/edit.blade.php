@@ -13,8 +13,12 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label>City Name</label>
-            <input type="text" name="name" id="editcityName" value="{{ old('name', $city->name) }}" class="form-control" required>
+            <label>City Name (Arabic)</label>
+            <input type="text" name="name_ar" value="{{ old('name_ar', $city->name_ar ?? $city->name) }}" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>City Name (English)</label>
+            <input type="text" name="name_en" value="{{ old('name_en', $city->name_en ?? $city->name) }}" class="form-control" required>
           </div>
         </div>
         <div class="modal-footer">

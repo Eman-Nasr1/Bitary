@@ -53,7 +53,7 @@ class JobController extends Controller
     {
         $specializations = JobSpecialization::active()->get();
         $providers = User::where('role', 'provider')->orWhere('is_provider', true)->get();
-        $cities = City::orderBy('name')->get();
+        $cities = City::orderBy('name_en')->orderBy('name_ar')->get();
         return view('dashboard.admin.jobs.create', compact('specializations', 'providers', 'cities'));
     }
 
@@ -97,7 +97,7 @@ class JobController extends Controller
         $job = Job::findOrFail($id);
         $specializations = JobSpecialization::active()->get();
         $providers = User::where('role', 'provider')->orWhere('is_provider', true)->get();
-        $cities = City::orderBy('name')->get();
+        $cities = City::orderBy('name_en')->orderBy('name_ar')->get();
         return view('dashboard.admin.jobs.edit', compact('job', 'specializations', 'providers', 'cities'));
     }
 

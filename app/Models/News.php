@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
 class News extends Model
@@ -27,7 +28,7 @@ class News extends Model
         'published_at' => 'datetime',
     ];
 
-    protected $appends = ['cover_image_url'];
+    protected $appends = ['cover_image_url', 'category_label'];
 
     // Relationships
     public function comments()
@@ -38,6 +39,11 @@ class News extends Model
     public function approvedComments()
     {
         return $this->hasMany(NewsComment::class)->where('status', 'approved');
+    }
+
+    public function categoryModel(): BelongsTo
+    {
+        return $this->belongsTo(NewsCategory::class, 'category', 'slug');
     }
 
     // Accessor for cover image URL
@@ -52,6 +58,20 @@ class News extends Model
         }
 
         return null;
+    }
+
+    public function getCategoryLabelAttribute(): string
+    {
+        if ($this->relationLoaded('categoryModel') && $this->categoryModel) {
+            return $this->categoryModel->name;
+        }
+
+        $matchedCategory = NewsCategory::where('slug', $this->category)->first();
+        if ($matchedCategory) {
+            return $matchedCategory->name;
+        }
+
+        return ucfirst(str_replace('_', ' ', (string) $this->category));
     }
 
     // Scopes
