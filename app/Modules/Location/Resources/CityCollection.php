@@ -14,7 +14,19 @@ class CityCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $isArabic = app()->getLocale() === 'ar';
+
+        return $this->collection->map(function ($city) use ($isArabic) {
+            $nameAr = $city->name_ar ?? $city->name;
+            $nameEn = $city->name_en ?? $city->name;
+
+            return [
+                'id' => $city->id,
+                'name' => $isArabic ? $nameAr : $nameEn,
+                'name_ar' => $nameAr,
+                'name_en' => $nameEn,
+            ];
+        })->all();
     }
 }
 

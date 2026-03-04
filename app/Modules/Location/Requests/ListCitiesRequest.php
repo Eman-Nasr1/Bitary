@@ -10,7 +10,9 @@ class ListCitiesRequest extends BaseGetRequestValidator
     public function rules(): array
     {
         $rules = [
-            'name' => 'null|string',
+            'name' => 'nullable|string',
+            'name_ar' => 'nullable|string',
+            'name_en' => 'nullable|string',
         ];
         return array_merge(parent::rules(), $rules);
     }

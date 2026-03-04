@@ -9,6 +9,8 @@ class ListAllCitiesRequest extends BaseRequest
     {
         return [
             'name' => 'name',
+            'name_ar' => 'name_ar',
+            'name_en' => 'name_en',
         ];
     }
 
